@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeastsLair.cs" />
+    <Compile Include="BLForum.cs" />
     <Compile Include="BLPage.cs" />
     <Compile Include="BLScanner.cs" />
     <Compile Include="Program.cs" />

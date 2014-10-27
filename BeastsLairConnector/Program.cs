@@ -14,22 +14,22 @@ namespace BeastsLairConnector
     {
         static void Main(string[] args)
         {
-            var scanner = new BLScanner();
-            scanner.Scan("http://forums.nrvnqsr.com/showthread.php/4539-The-Huntress-of-Arcadia-Atalanta-s-FC");
-            var downloader = new Downloader.Downloader();
+            var scanner = new BeastsLair("http://forums.nrvnqsr.com");
+            //scanner.Scan("http://forums.nrvnqsr.com/showthread.php/4539-The-Huntress-of-Arcadia-Atalanta-s-FC");
+            //var downloader = new Downloader.Downloader();
             
-            downloader.FilesToDownload.AddRange(scanner.ImageUrls);
+            //downloader.FilesToDownload.AddRange(scanner.ImageUrls);
 
-            downloader.DownloadLocation = @"C:\ImagesDL\";
+            //downloader.DownloadLocation = @"C:\ImagesDL\";
 
-            downloader.MaxClientThreads = 5;
-            downloader.NewThreadPause = 0;
+            //downloader.MaxClientThreads = 5;
+            //downloader.NewThreadPause = 0;
 
-            downloader.ProgressChanged += DownloaderOnProgressChanged;
-            downloader.FileDownloaded += DownloaderOnFileDownloaded;
-            downloader.DownloadCompleted += DownloaderOnDownloadCompleted;
+            //downloader.ProgressChanged += DownloaderOnProgressChanged;
+            //downloader.FileDownloaded += DownloaderOnFileDownloaded;
+            //downloader.DownloadCompleted += DownloaderOnDownloadCompleted;
 
-            downloader.DownloadAsync();
+            //downloader.DownloadAsync();
 
             while (true)
             {

@@ -13,6 +13,7 @@ namespace BeastsLairConnector
         public HtmlDocument Document { get; private set; }
         public List<string> Images { get; private set; }
         public string NextPageUrl;
+        public string PageUrl { get; private set; }
 
         private string _baseUrl;
 
@@ -24,20 +25,40 @@ namespace BeastsLairConnector
         public BLPage(string url)
             : this()
         {
+            PageUrl = url;
             Load(url);
+        }
+
+        public BLPage(string url, bool load)
+            : this()
+        {
+            PageUrl = url;
+            if (load)
+            {
+                Load(url);
+            }
+        }
+
+        public void Load()
+        {
+            if (string.IsNullOrEmpty(PageUrl))
+            {
+                throw new InvalidOperationException("Cannot load page without initializing.");
+            }
+            Load(PageUrl);
         }
 
         public void Load(string url)
         {
             //try
             //{
-
             var uri = new Uri(url);
-
+            
             _baseUrl = uri.Scheme + "://" + uri.Authority;
 
             var web = new HtmlWeb();
             Document = web.Load(url);
+            PageUrl = url;
             ParseDocument();
             //}
             //catch (Exception e)
@@ -57,7 +78,7 @@ namespace BeastsLairConnector
         private void ReadImages()
         {
             var images = Document.DocumentNode.SelectNodes("//div[contains(concat(' ',@class,' '),' content ')]//img[@src]");
-
+            if (images != null)
             Images.AddRange(images.Select(img => img.GetAttributeValue("src", null))
                 .Where(src => IsValidNonRelativeUrl(src) && !Images.Contains(src)).ToList());
         }
