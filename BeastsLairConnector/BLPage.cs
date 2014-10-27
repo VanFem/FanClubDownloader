@@ -29,16 +29,6 @@ namespace BeastsLairConnector
             Load(url);
         }
 
-        public BLPage(string url, bool load)
-            : this()
-        {
-            PageUrl = url;
-            if (load)
-            {
-                Load(url);
-            }
-        }
-
         public void Load()
         {
             if (string.IsNullOrEmpty(PageUrl))
