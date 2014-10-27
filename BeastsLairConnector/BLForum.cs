@@ -10,8 +10,6 @@ namespace BeastsLairConnector
 {
     public class BLForum
     {
-
-
         private string _baseUrl;
 
         public string ForumUrl { get; private set; }
