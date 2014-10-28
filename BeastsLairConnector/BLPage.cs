@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,9 +69,27 @@ namespace BeastsLairConnector
         private void ReadImages()
         {
             var images = Document.DocumentNode.SelectNodes("//div[contains(concat(' ',@class,' '),' content ')]//img[@src]");
-            if (images != null)
-            Images.AddRange(images.Select(img => img.GetAttributeValue("src", null))
-                .Where(src => IsValidNonRelativeUrl(src) && !Images.Contains(src)).ToList());
+            if (images == null) return;
+            foreach (var img in images)
+            {
+                var src = img.GetAttributeValue("src", null);
+                if (src == null) continue;
+                src = WebUtility.HtmlDecode(src);
+
+                if (src.Contains("http://forums.nrvnqsr.com/attachment.php"))
+                {
+                    Images.Add(GetFullAttachmentUrl(src));
+                }
+                else if (IsValidNonRelativeUrl(src) && !Images.Contains(src))
+                {
+                    Images.Add(src);
+                }
+            }
+        }
+
+        private string GetFullAttachmentUrl(string url)
+        {
+            return url.EndsWith("&thumb=1") ? url.Substring(0, url.Length - "&thumb=1".Length) : url;
         }
 
         private bool IsValidNonRelativeUrl(string url)
