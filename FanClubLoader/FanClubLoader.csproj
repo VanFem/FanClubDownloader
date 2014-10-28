@@ -77,6 +77,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BeastsLairConnector\BeastsLairConnector.csproj">
+      <Project>{f0877f3e-ebc2-4e63-9c85-b0d3194a55eb}</Project>
+      <Name>BeastsLairConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Downloader\Downloader.csproj">
+      <Project>{048c20a1-1066-4ac7-b591-4bda2739474f}</Project>
+      <Name>Downloader</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

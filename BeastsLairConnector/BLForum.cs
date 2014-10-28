@@ -12,12 +12,13 @@ namespace BeastsLairConnector
     {
         private string _baseUrl;
 
+        public string ForumName { get; set; }
         public string ForumUrl { get; private set; }
-        public List<string> ForumThreads { get; private set; }
+        public List<BLThread> ForumThreads { get; private set; }
 
         public BLForum()
         {
-            ForumThreads = new List<string>();
+            ForumThreads = new List<BLThread>();
         }
 
         public BLForum(string forumUrl) : this()
@@ -32,7 +33,7 @@ namespace BeastsLairConnector
 
             _baseUrl = uri.Scheme + "://" + uri.Authority;
             ForumUrl = url;
-            ParseNextThreadPage(url);
+            //ParseNextThreadPage(url);
         }
 
         
@@ -49,9 +50,9 @@ namespace BeastsLairConnector
                     threadUrl = _baseUrl + "/" + threadUrl;
                 }
 
-                if (!ForumThreads.Contains(threadUrl))
+                if (ForumThreads.All(op => op.OpeningPostUrl != threadUrl))
                 {
-                    ForumThreads.Add(threadUrl);
+                    ForumThreads.Add(new BLThread() {OpeningPostUrl = threadUrl}); 
                 }
             }
 

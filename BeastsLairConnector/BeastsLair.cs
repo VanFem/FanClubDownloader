@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,16 +35,39 @@ namespace BeastsLairConnector
 
         private void ParseForums()
         {
-           var forums = Document.DocumentNode.SelectNodes("//h2[contains(concat(' ',@class,' '),' forumtitle ')]//a");
-            foreach (var forum in forums)
+            var forumContainers =
+                Document.DocumentNode.SelectNodes("//li[contains(concat(' ',@class,' '),' forumbit_nopost ')]");
+            if (forumContainers == null) return;
+            foreach (var fC in forumContainers)
             {
-                var forumurl = forum.GetAttributeValue("href", null);
-                if (!IsValidNonRelativeUrl(forumurl))
+                ParseForumContainer(fC);
+            }}
+
+        private void ParseForumContainer(HtmlNode fC)
+        {
+            var forumTitleNode = fC.SelectSingleNode(".//span[contains(concat(' ',@class,' '), 'forumtitle')]//a");
+            var forumList = fC.NextSibling;
+            var forumTitle = forumTitleNode.InnerHtml;
+            if (forumList == null) return;
+            var forum = forumList.SelectSingleNode(".//h2[contains(concat(' ',@class,' '), 'forumtitle')]//a");
+            while (
+                forumList != null && !forumList.GetAttributeValue("class", "").Contains("forumbit_nopost"))
+            {
+                if (forum != null)
                 {
-                    forumurl = _baseUrl + "/" + forumurl;
+                    var forumUrl = forum.GetAttributeValue("href", null);
+                    if (!IsValidNonRelativeUrl(forumUrl))
+                    {
+                        forumUrl = _baseUrl + "/" + forumUrl;
+                    }
+                    var forumName = forumTitle + ": " + WebUtility.HtmlDecode(forum.InnerHtml);
+                    Forums.Add(new BLForum(forumUrl) {ForumName = forumName});
                 }
-                Forums.Add(new BLForum(forumurl));
+                forumList = forumList.NextSibling;
+                if (forumList !=null)
+                    forum = forumList.SelectSingleNode(".//h2[contains(concat(' ',@class,' '), 'forumtitle')]//a");
             }
+
         }
 
         private bool IsValidNonRelativeUrl(string url)

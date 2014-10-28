@@ -48,6 +48,7 @@
     <Compile Include="BLForum.cs" />
     <Compile Include="BLPage.cs" />
     <Compile Include="BLScanner.cs" />
+    <Compile Include="BLThread.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
