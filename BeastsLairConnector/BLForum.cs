@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,16 +25,25 @@ namespace BeastsLairConnector
         public BLForum(string forumUrl) : this()
         {
             ForumUrl = forumUrl;
-            Load(forumUrl);
+        }
+
+        public void Load()
+        {
+            if (string.IsNullOrEmpty(ForumUrl))
+            {
+                throw new InvalidOperationException();
+            }
+
+            var uri = new Uri(ForumUrl);
+            _baseUrl = uri.Scheme + "://" + uri.Authority;
+            ParseNextThreadPage(ForumUrl);
+         
         }
 
         public void Load(string url)
         {
-            var uri = new Uri(url);
-
-            _baseUrl = uri.Scheme + "://" + uri.Authority;
             ForumUrl = url;
-            //ParseNextThreadPage(url);
+            Load();
         }
 
         
@@ -41,10 +51,13 @@ namespace BeastsLairConnector
         {
             var web = new HtmlWeb();
             var document = web.Load(url);
-            var forums = document.DocumentNode.SelectNodes("//h3[contains(concat(' ',@class,' '),' threadtitle ')]//a");
+            var forums = document.DocumentNode.SelectNodes("//h3[contains(concat(' ',@class,' '),' threadtitle ')]//a[contains(concat(' ',@class,' '),' title ')]");
             foreach (var forum in forums)
             {
                 var threadUrl = forum.GetAttributeValue("href", null);
+                var authorNode =
+                    forum.ParentNode.ParentNode.SelectSingleNode(
+                        ".//div[contains(concat(' ',@class,' '),' author ')]//span[contains(concat(' ',@class,' '),' label ')]//a");
                 if (!IsValidNonRelativeUrl(threadUrl))
                 {
                     threadUrl = _baseUrl + "/" + threadUrl;
@@ -52,7 +65,7 @@ namespace BeastsLairConnector
 
                 if (ForumThreads.All(op => op.OpeningPostUrl != threadUrl))
                 {
-                    ForumThreads.Add(new BLThread() {OpeningPostUrl = threadUrl}); 
+                    ForumThreads.Add(new BLThread {OpeningPostUrl = threadUrl, ThreadName = WebUtility.HtmlDecode(forum.InnerHtml), Author = WebUtility.HtmlDecode(authorNode.InnerHtml)}); 
                 }
             }
 
