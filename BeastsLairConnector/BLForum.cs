@@ -58,14 +58,26 @@ namespace BeastsLairConnector
                 var authorNode =
                     forum.ParentNode.ParentNode.SelectSingleNode(
                         ".//div[contains(concat(' ',@class,' '),' author ')]//span[contains(concat(' ',@class,' '),' label ')]//a");
+
+                var pageAmtNode =
+                    forum.ParentNode.ParentNode.SelectSingleNode(
+                        ".//div[contains(concat(' ',@class,' '),' author ')]//dl[contains(concat(' ',@class,' '),' pagination ')]//dd//span[last()]//a");
+                int pageAmt = 0;
+                if (pageAmtNode != null)
+                {
+                    Int32.TryParse(pageAmtNode.InnerText.Trim(), out pageAmt);
+                }
+                
+                
                 if (!IsValidNonRelativeUrl(threadUrl))
                 {
                     threadUrl = _baseUrl + "/" + threadUrl;
                 }
 
+                
                 if (ForumThreads.All(op => op.OpeningPostUrl != threadUrl))
                 {
-                    ForumThreads.Add(new BLThread {OpeningPostUrl = threadUrl, ThreadName = WebUtility.HtmlDecode(forum.InnerHtml), Author = WebUtility.HtmlDecode(authorNode.InnerHtml)}); 
+                    ForumThreads.Add(new BLThread {OpeningPostUrl = threadUrl, ThreadName = WebUtility.HtmlDecode(forum.InnerHtml), Author = WebUtility.HtmlDecode(authorNode.InnerHtml), PagesAmount = pageAmt}); 
                 }
             }
 

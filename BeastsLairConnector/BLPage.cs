@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace BeastsLairConnector
@@ -113,6 +110,17 @@ namespace BeastsLairConnector
                     NextPageUrl = _baseUrl + "/" + NextPageUrl;
                 }
             }
+        }
+
+        public string GetNextPageUrl()
+        {
+            if (!string.IsNullOrEmpty(NextPageUrl))
+            {
+                return NextPageUrl;
+            }
+            if (Document == null) return null;
+            ReadNextPageUrl();
+            return NextPageUrl;
         }
     }
 }

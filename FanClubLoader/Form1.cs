@@ -18,9 +18,13 @@ namespace FanClubLoader
 {
     public partial class Form1 : Form
     {
+        private static readonly Size ImageListSize = new Size(170,170);
+
         private BeastsLair _bl;
         private BackgroundWorker _forumLoader;
         private BLForum _selectedForum;
+        private BLThread _selectedThread;
+        private int _currentPageIndex;
         private List<Image> _imagesTemporaryList;
 
         public Form1()
@@ -54,19 +58,13 @@ namespace FanClubLoader
             _forumLoader.RunWorkerAsync();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void UpdateListBox()
         {
-            if (e.RowIndex < 0) return;
-            var thread = _selectedForum.ForumThreads[e.RowIndex];
-            thread.OpeningPost = new BLPage(thread.OpeningPostUrl);
-
-            lblThreadName.Text = _selectedForum.ForumThreads[e.RowIndex].ThreadName;
-            lblAuthorName.Text = thread.Author;
-
+            lblPageNum.Text = (_currentPageIndex+1).ToString();
             listView1.LargeImageList = new ImageList();
-            listView1.LargeImageList.ImageSize = new Size(128, 128);
+            listView1.LargeImageList.ImageSize = ImageListSize;
             listView1.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
-            _imagesTemporaryList = thread.OpeningPost.Images.Select(im =>
+            _imagesTemporaryList = _selectedThread.LoadedPages[_currentPageIndex].Images.Select(im =>
             {
                 var str = GetImageStreamFromUrl(im);
                 try
@@ -79,19 +77,35 @@ namespace FanClubLoader
                 }
             }).Where(s => s != null).ToList();
 
-            listView1.LargeImageList.Images.AddRange(_imagesTemporaryList.Select(im => resizeImage(im, 128, 128)).ToArray());
-            
+            listView1.LargeImageList.Images.AddRange(_imagesTemporaryList.Select(im => resizeImage(im, ImageListSize.Width, ImageListSize.Height)).ToArray());
+
             int i = 0;
-            listView1.TileSize = new Size(128,128);
+            listView1.TileSize = new Size(128, 128);
             listView1.Items.Clear();
             foreach (var img in listView1.LargeImageList.Images)
             {
                 listView1.Items.Add(new ListViewItem("", i++));
             }
+        }
 
-            if (thread.OpeningPost.Images.Count > 0)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            _selectedThread = _selectedForum.ForumThreads[e.RowIndex];
+            _selectedThread.OpeningPost = new BLPage(_selectedThread.OpeningPostUrl);
+            _selectedThread.LoadedPages.Add(_selectedThread.OpeningPost);
+            _currentPageIndex = 0;
+            lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
+
+
+            lblThreadName.Text = _selectedForum.ForumThreads[e.RowIndex].ThreadName;
+            lblAuthorName.Text = _selectedThread.Author;
+
+            UpdateListBox();
+
+            if (_selectedThread.LoadedPages[_currentPageIndex].Images.Count > 0)
             {
-                var str = GetImageStreamFromUrl(thread.OpeningPost.Images[0]);
+                var str = GetImageStreamFromUrl(_selectedThread.LoadedPages[_currentPageIndex].Images[0]);
                 pictureBox1.Image = str != null ? Image.FromStream(str) : null;
             }
             else
@@ -114,9 +128,7 @@ namespace FanClubLoader
             }
         }
 
-        private Image resizeImage(Image originalImage,
-            /* note changed names */
-                     int canvasWidth, int canvasHeight)
+        private Image resizeImage(Image originalImage, int canvasWidth, int canvasHeight)
         {
             Image image = originalImage;
             int originalWidth = image.Width;
@@ -164,5 +176,41 @@ namespace FanClubLoader
                 pictureBox1.Image = _imagesTemporaryList[listView1.SelectedIndices[0]];
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = txtDownloadLocation.Text;
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtDownloadLocation.Text = folderBrowserDialog1.SelectedPath;
+            }
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (_currentPageIndex == _selectedThread.LoadedPages.Count-1)
+            {
+                if (_selectedThread.LoadedPages.Last().GetNextPageUrl() != null)
+                {
+                    _selectedThread.LoadedPages.Add(new BLPage(_selectedThread.LoadedPages.Last().GetNextPageUrl()));
+                    _currentPageIndex++;
+                    UpdateListBox();
+                }
+            }
+            else
+            {
+                _currentPageIndex++;
+                UpdateListBox();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (_currentPageIndex == 0) return;
+            _currentPageIndex--;
+            UpdateListBox();
+        }
+
     }
 }
