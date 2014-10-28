@@ -29,13 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cmbForumSelect = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImagesDisp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -70,14 +75,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.ImagesDisp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -90,7 +91,6 @@
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -154,6 +154,49 @@
             this.dataGridView1.Size = new System.Drawing.Size(544, 692);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // threadNameDataGridViewTextBoxColumn
+            // 
+            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
+            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // ImagesDisp
+            // 
+            this.ImagesDisp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ImagesDisp.DataPropertyName = "ImagesDisp";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ImagesDisp.HeaderText = "Images";
+            this.ImagesDisp.Name = "ImagesDisp";
+            this.ImagesDisp.ReadOnly = true;
+            this.ImagesDisp.Width = 66;
+            // 
+            // Pages
+            // 
+            this.Pages.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Pages.DataPropertyName = "PagesAmount";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Pages.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Pages.HeaderText = "Pages";
+            this.Pages.Name = "Pages";
+            this.Pages.ReadOnly = true;
+            this.Pages.Width = 62;
+            // 
+            // authorDataGridViewTextBoxColumn
+            // 
+            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
+            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
+            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
+            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.authorDataGridViewTextBoxColumn.Width = 63;
+            // 
+            // bLThreadBindingSource
+            // 
+            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
             // 
             // tableLayoutPanel3
             // 
@@ -434,6 +477,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Refresh";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -450,7 +494,7 @@
             this.tableLayoutPanel10.ColumnCount = 3;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel10.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.button2, 2, 0);
             this.tableLayoutPanel10.Controls.Add(this.txtDownloadLocation, 1, 0);
@@ -475,9 +519,9 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(266, 3);
+            this.button2.Location = new System.Drawing.Point(265, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(34, 23);
+            this.button2.Size = new System.Drawing.Size(35, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -488,7 +532,7 @@
             this.txtDownloadLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDownloadLocation.Location = new System.Drawing.Point(108, 4);
             this.txtDownloadLocation.Name = "txtDownloadLocation";
-            this.txtDownloadLocation.Size = new System.Drawing.Size(152, 20);
+            this.txtDownloadLocation.Size = new System.Drawing.Size(151, 20);
             this.txtDownloadLocation.TabIndex = 4;
             this.txtDownloadLocation.WordWrap = false;
             // 
@@ -579,49 +623,6 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
-            // ImagesDisp
-            // 
-            this.ImagesDisp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ImagesDisp.DataPropertyName = "ImagesDisp";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ImagesDisp.HeaderText = "Images";
-            this.ImagesDisp.Name = "ImagesDisp";
-            this.ImagesDisp.ReadOnly = true;
-            this.ImagesDisp.Width = 66;
-            // 
-            // Pages
-            // 
-            this.Pages.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Pages.DataPropertyName = "PagesAmount";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Pages.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Pages.HeaderText = "Pages";
-            this.Pages.Name = "Pages";
-            this.Pages.ReadOnly = true;
-            this.Pages.Width = 62;
-            // 
-            // threadNameDataGridViewTextBoxColumn
-            // 
-            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
-            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // authorDataGridViewTextBoxColumn
-            // 
-            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
-            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
-            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
-            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.authorDataGridViewTextBoxColumn.Width = 63;
-            // 
-            // bLThreadBindingSource
-            // 
-            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -633,6 +634,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -653,7 +655,6 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

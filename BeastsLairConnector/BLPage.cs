@@ -122,5 +122,41 @@ namespace BeastsLairConnector
             ReadNextPageUrl();
             return NextPageUrl;
         }
+
+        public int ReadCurrentPageNumber()
+        {
+            if (Document == null) return -1;
+            var currPageNumberNode =
+                Document.DocumentNode.SelectSingleNode(
+                    "//div[contains(concat(' ',@class,' '),'pagination_top')]//span[contains(concat(' ',@class,' '),' selected ')]//a");
+            if (currPageNumberNode == null) return -1;
+            int currPageNumber;
+            if (Int32.TryParse(currPageNumberNode.InnerText, out currPageNumber))
+            {
+                return currPageNumber;
+            }
+            return -1;
+        }
+
+        public int GetPageMax()
+        {
+            if (Document == null) return -1;
+            var lastPageAnchor =
+                Document.DocumentNode.SelectSingleNode(
+                    "//span[contains(concat(' ',@class,' '),'first_last')]//a//img[contains(@alt,'Last')]");
+            if (lastPageAnchor == null)
+            {
+                return ReadCurrentPageNumber();
+            }
+            var pageLink = lastPageAnchor.ParentNode.GetAttributeValue("href", null);
+            if (pageLink == null) return -1;
+            int pageNum;
+            if (Int32.TryParse(pageLink.Split(new[] {"/page"}, StringSplitOptions.RemoveEmptyEntries).Last(), out pageNum))
+            {
+                return pageNum;
+            }
+            return -1;
+
+        }
     }
 }
