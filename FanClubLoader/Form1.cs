@@ -74,6 +74,7 @@ namespace FanClubLoader
         private void InitSelectedForum()
         {
             btnRefreshThreadList.Enabled = false;
+            btnRefreshForumList.Enabled = false;
             cmbForumSelect.Enabled = false;
             _forumLoader = new BackgroundWorker();
             _forumLoader.DoWork += (s, a) => _selectedForum.Load();
@@ -81,6 +82,7 @@ namespace FanClubLoader
             {
                 bLThreadBindingSource.DataSource = _selectedForum.ForumThreads;
                 cmbForumSelect.Enabled = true;
+                btnRefreshForumList.Enabled = true;
                 btnRefreshThreadList.Enabled = true;
             };
             _forumLoader.RunWorkerAsync();
@@ -206,7 +208,7 @@ namespace FanClubLoader
             if (_currentPageIndex == _selectedThread.LoadedPages.Count-1)
             {
                 if (_selectedThread.LoadedPages.Last().GetNextPageUrl() == null) return;
-                _selectedThread.LoadedPages.Add(new BLPage(_selectedThread.LoadedPages.Last().GetNextPageUrl()));
+                _selectedThread.LoadedPages.Add(_selectedThread.RemoveQuotesAndRepeats(new BLPage(_selectedThread.LoadedPages.Last().GetNextPageUrl())));
                 _currentPageIndex++;
                 UpdateListAsync();
             }
@@ -271,6 +273,8 @@ namespace FanClubLoader
         private void InitBLComboBox()
         {
             cmbForumSelect.Enabled = false;
+            btnRefreshThreadList.Enabled = false;
+            btnRefreshForumList.Enabled = false;
             _forumLoader = new BackgroundWorker();
             _forumLoader.DoWork += (sender, args) => { _bl = new BeastsLair("http://forums.nrvnqsr.com"); };
             _forumLoader.RunWorkerCompleted += (sender, args) =>
@@ -280,6 +284,8 @@ namespace FanClubLoader
                     cmbForumSelect.Items.AddRange(_bl.Forums.ToArray());
                 }
                 cmbForumSelect.Enabled = true;
+                btnRefreshThreadList.Enabled = true;
+                btnRefreshForumList.Enabled = true;
             };
             _forumLoader.RunWorkerAsync();
             
@@ -296,6 +302,10 @@ namespace FanClubLoader
         {
             _selectedForum.ForumThreads.Clear();
             InitSelectedForum();
+        }
+
+        private void btnScanThread_Click(object sender, EventArgs e)
+        {
         }
     }
 }

@@ -40,10 +40,15 @@ namespace BeastsLairConnector
             }
         }
 
+        public BLPage RemoveQuotesAndRepeats(BLPage newPage)
+        {
+            newPage.Images.RemoveAll(im => LoadedPages.Any(lp => lp.Images.Any(lpi => lpi.Url == im.Url)));
+            return newPage;
+        }
+
         public BLThread()
         {
             LoadedPages = new List<BLPage>();
         }
-
     }
 }
