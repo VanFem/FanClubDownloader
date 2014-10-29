@@ -566,8 +566,8 @@
             // tableLayoutPanel13
             // 
             this.tableLayoutPanel13.ColumnCount = 4;
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.22078F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.77922F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel13.Controls.Add(this.label11, 0, 0);
@@ -586,9 +586,10 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(78, 10);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label11.Location = new System.Drawing.Point(135, 8);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(35, 13);
+            this.label11.Size = new System.Drawing.Size(45, 17);
             this.label11.TabIndex = 0;
             this.label11.Text = "Page:";
             // 
@@ -596,9 +597,10 @@
             // 
             this.lblPageNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblPageNum.AutoSize = true;
-            this.lblPageNum.Location = new System.Drawing.Point(119, 10);
+            this.lblPageNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.lblPageNum.Location = new System.Drawing.Point(186, 8);
             this.lblPageNum.Name = "lblPageNum";
-            this.lblPageNum.Size = new System.Drawing.Size(27, 13);
+            this.lblPageNum.Size = new System.Drawing.Size(34, 17);
             this.lblPageNum.TabIndex = 1;
             this.lblPageNum.Text = "N/A";
             // 
@@ -608,7 +610,7 @@
             this.btnPrevPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPrevPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btnPrevPage.Location = new System.Drawing.Point(235, 3);
+            this.btnPrevPage.Location = new System.Drawing.Point(234, 3);
             this.btnPrevPage.Name = "btnPrevPage";
             this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
             this.btnPrevPage.TabIndex = 2;
@@ -621,9 +623,9 @@
             this.btnNextPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnNextPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.btnNextPage.Location = new System.Drawing.Point(270, 3);
+            this.btnNextPage.Location = new System.Drawing.Point(269, 3);
             this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(30, 28);
+            this.btnNextPage.Size = new System.Drawing.Size(31, 28);
             this.btnNextPage.TabIndex = 3;
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.nextPageButton_Click);

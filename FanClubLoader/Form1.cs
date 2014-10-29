@@ -245,7 +245,7 @@ namespace FanClubLoader
         private void WriteConfigToFile()
         {
             var xser = new DataContractSerializer(typeof(BeastsLair));
-            var tw = new FileStream(DataFileName, FileMode.OpenOrCreate);
+            var tw = new FileStream(DataFileName, FileMode.Create);
             xser.WriteObject(tw, _bl);
             tw.Close();
         }

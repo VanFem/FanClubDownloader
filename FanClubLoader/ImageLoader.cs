@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -82,16 +83,9 @@ namespace FanClubLoader
 
         private Stream GetImageStreamFromUrl(string url)
         {
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Timeout = 1000;
-                return request.GetResponse().GetResponseStream();
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
+            var request = (HttpWebRequest) WebRequest.Create(url);
+            request.Timeout = 7000;
+            return request.GetResponse().GetResponseStream();
         }
 
         public void LoadImages(BackgroundWorker bw)
@@ -112,8 +106,9 @@ namespace FanClubLoader
                         image = Image.FromStream(str);
                         img.Content = image;
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        Debug.WriteLine(img.Url+": "+ex.Message);
                         continue;
                     }
                 }

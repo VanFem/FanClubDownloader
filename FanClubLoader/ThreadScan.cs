@@ -43,6 +43,7 @@ namespace FanClubLoader
             {
                 MessageBox.Show("Scan completed.");
                 DialogResult = bwScanner.CancellationPending ? DialogResult.Abort : DialogResult.OK;
+                threadToScan.ImagesAmount = threadToScan.LoadedPages.Sum(lp => lp.Images.Count);
                 button1.Enabled = true;
                 Close();
             };

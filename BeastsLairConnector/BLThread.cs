@@ -35,8 +35,7 @@ namespace BeastsLairConnector
         {
             get
             {
-                return "N/A";
-                return string.Format("{0}/{1}", ImagesDownloaded, ImagesAmount);
+                return ImagesAmount > 0 ? string.Format("{0}/{1}", ImagesDownloaded, ImagesAmount) : "N/A";
             }
         }
 
