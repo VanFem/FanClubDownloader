@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 using BeastsLairConnector;
@@ -16,11 +17,11 @@ namespace FanClubLoader
     {
         private BeastsLair _bl;
         private BackgroundWorker _forumLoader;
+        private BackgroundWorker _asyncLauncher;
         private BackgroundWorker _imageLoader;
         private BLForum _selectedForum;
         private BLThread _selectedThread;
         private int _currentPageIndex;
-        private List<Image> _imagesTemporaryList;
 
         public Form1()
         {
@@ -29,7 +30,7 @@ namespace FanClubLoader
             _forumLoader.DoWork += (sender, args) => { _bl = new BeastsLair("http://forums.nrvnqsr.com"); };
             _forumLoader.RunWorkerCompleted += (sender, args) =>
             {
-                if (_bl.Forums.Count != null)
+                if (_bl.Forums.Count != 0)
                 {
                     cmbForumSelect.Items.AddRange(_bl.Forums.ToArray());
                     cmbForumSelect.ValueMember = "ForumUrl";
@@ -58,9 +59,11 @@ namespace FanClubLoader
             listView1.TileSize = ImageLoader.ImageListSize;
             if (listView1.LargeImageList == null)
             {
-                listView1.LargeImageList = new ImageList();
-                listView1.LargeImageList.ImageSize = ImageLoader.ImageListSize;
-                listView1.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
+                listView1.LargeImageList = new ImageList
+                {
+                    ImageSize = ImageLoader.ImageListSize,
+                    ColorDepth = ColorDepth.Depth32Bit
+                };
             }
             else
             {
@@ -68,24 +71,49 @@ namespace FanClubLoader
             }
             listView1.Items.Clear();
             lblPageNum.Text = (_currentPageIndex + 1).ToString();
-            _imagesTemporaryList = new List<Image>();
-            var loader = new ImageLoader(_selectedThread.LoadedPages[_currentPageIndex]);
-            _imageLoader = new BackgroundWorker();
-            _imageLoader.DoWork += (o, args) => loader.LoadImages(_imageLoader);
-            _imageLoader.WorkerReportsProgress = true;
-            _imageLoader.ProgressChanged += (o, ar) =>
+
+            _asyncLauncher = new BackgroundWorker();
+
+            _asyncLauncher.DoWork += (o1, a1) =>
             {
-                var args = ar.UserState as ImageLoader.ListUpdatedArgs;
-                if (args == null) return;
-                listView1.LargeImageList.Images.Add(args.ThumbImage);
-                listView1.Items.Add(new ListViewItem(string.Empty, listView1.Items.Count));
-                _imagesTemporaryList.Add(args.AddedImage);
-                if (pictureBox1.Image == null)
+                if (_imageLoader != null && _imageLoader.IsBusy)
                 {
-                    pictureBox1.Image = args.AddedImage;
+                    _imageLoader.CancelAsync();
+                    while (_imageLoader.IsBusy)
+                    {
+                        Thread.Sleep(100);
+                    }
                 }
             };
-            _imageLoader.RunWorkerAsync();
+
+            _asyncLauncher.RunWorkerCompleted += (o1, a1) =>
+            {
+                var loader = new ImageLoader(_selectedThread.LoadedPages[_currentPageIndex]);
+                _imageLoader = new BackgroundWorker();
+                _imageLoader.DoWork += (o, args) => loader.LoadImages(_imageLoader);
+                _imageLoader.RunWorkerCompleted += (o, args) =>
+                {
+                    btnNextPage.Enabled = true;
+                    btnPrevPage.Enabled = true;
+                };
+                _imageLoader.WorkerReportsProgress = true;
+                _imageLoader.WorkerSupportsCancellation = true;
+                _imageLoader.ProgressChanged += (o, ar) =>
+                {
+                    if (_imageLoader.CancellationPending) return;
+                    var args = ar.UserState as ImageLoader.ListUpdatedArgs;
+                    if (args == null) return;
+                    listView1.LargeImageList.Images.Add(args.ThumbImage);
+                    listView1.Items.Add(new ListViewItem(string.Empty, listView1.Items.Count));
+                    if (pictureBox1.Image == null)
+                    {
+                        pictureBox1.Image = args.AddedImage;
+                    }
+                };
+                _imageLoader.RunWorkerAsync();
+            };
+
+            _asyncLauncher.RunWorkerAsync();
         }
         
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -94,21 +122,19 @@ namespace FanClubLoader
             _selectedThread = _selectedForum.ForumThreads[e.RowIndex];
             _selectedThread.OpeningPost = new BLPage(_selectedThread.OpeningPostUrl);
             _selectedThread.LoadedPages.Add(_selectedThread.OpeningPost);
+            pictureBox1.Image = null;
             _currentPageIndex = 0;
             lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
             lblThreadName.Text = _selectedForum.ForumThreads[e.RowIndex].ThreadName;
             lblAuthorName.Text = _selectedThread.Author;
-
             UpdateListAsync();
         }
-
-        
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedIndices.Count > 0)
             {
-                pictureBox1.Image = _imagesTemporaryList[listView1.SelectedIndices[0]];
+                pictureBox1.Image =_selectedThread.LoadedPages[_currentPageIndex].GetCachedImageWithIndex(listView1.SelectedIndices[0]);
             }
         }
 
@@ -124,14 +150,15 @@ namespace FanClubLoader
 
         private void button5_Click(object sender, EventArgs e)
         {
+            btnNextPage.Enabled = false;
+            btnPrevPage.Enabled = false;
+
             if (_currentPageIndex == _selectedThread.LoadedPages.Count-1)
             {
-                if (_selectedThread.LoadedPages.Last().GetNextPageUrl() != null)
-                {
-                    _selectedThread.LoadedPages.Add(new BLPage(_selectedThread.LoadedPages.Last().GetNextPageUrl()));
-                    _currentPageIndex++;
-                    UpdateListAsync();
-                }
+                if (_selectedThread.LoadedPages.Last().GetNextPageUrl() == null) return;
+                _selectedThread.LoadedPages.Add(new BLPage(_selectedThread.LoadedPages.Last().GetNextPageUrl()));
+                _currentPageIndex++;
+                UpdateListAsync();
             }
             else
             {
@@ -142,6 +169,8 @@ namespace FanClubLoader
 
         private void button4_Click(object sender, EventArgs e)
         {
+            btnNextPage.Enabled = false;
+            btnPrevPage.Enabled = false;
             if (_currentPageIndex == 0) return;
             _currentPageIndex--;
             UpdateListAsync();

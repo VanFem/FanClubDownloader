@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -38,7 +39,7 @@ namespace FanClubLoader
 
         public event ListBoxUpdateHandler ListBoxUpdated;
 
-        private Image resizeImage(Image originalImage, int canvasWidth, int canvasHeight)
+        private static Image ResizeImage(Image originalImage, int canvasWidth, int canvasHeight)
         {
             Image image = originalImage;
             int originalWidth = image.Width;
@@ -97,19 +98,27 @@ namespace FanClubLoader
         {
             foreach (var img in _loadingPage.Images)
             {
+                if (bw.CancellationPending) return;
                 Image image;
-                try
+                if (img.Content != null)
                 {
-                    var str = GetImageStreamFromUrl(img);
-                    image = Image.FromStream(str);
+                    image = img.Content;
                 }
-                catch
+                else
                 {
-                    continue;
+                    try
+                    {
+                        var str = GetImageStreamFromUrl(img.Url);
+                        image = Image.FromStream(str);
+                        img.Content = image;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
-                var thumb = resizeImage(image, ImageListSize.Width, ImageListSize.Height);
-                bw.ReportProgress(0, new ListUpdatedArgs(image, thumb));
-                //ListBoxUpdated(this, new ListUpdatedArgs(image, thumb));
+                var thumb = img.Thumbnail ?? ResizeImage(image, ImageListSize.Width, ImageListSize.Height);
+                if (!bw.CancellationPending) bw.ReportProgress(0, new ListUpdatedArgs(image, thumb));
             }
         }
 

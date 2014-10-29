@@ -17,7 +17,7 @@ namespace BeastsLairConnector
             CurrentPage = new BLPage(url);
             while (CurrentPage.NextPageUrl != null)
             {
-                ImageUrls.AddRange(CurrentPage.Images.Where(img => !ImageUrls.Contains(img)));
+                ImageUrls.AddRange(CurrentPage.Images.Where(img => ImageUrls.All(im => im != img.Url)).Select(im => im.Url));
                 CurrentPage = new BLPage(CurrentPage.NextPageUrl);
             }
         }

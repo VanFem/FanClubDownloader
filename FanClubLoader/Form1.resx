@@ -127,7 +127,7 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button4.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnPrevPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
         t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg
@@ -137,7 +137,7 @@
         nBAgqFaEDnh+TZjg6McPFwrgPCtQQleSbAc2gBtX4AYEGerq3TsxIAA7
 </value>
   </data>
-  <data name="button5.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnNextPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
         t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg

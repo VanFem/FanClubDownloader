@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BeastsLair.cs" />
     <Compile Include="BLForum.cs" />
+    <Compile Include="BLImage.cs" />
     <Compile Include="BLPage.cs" />
     <Compile Include="BLScanner.cs" />
     <Compile Include="BLThread.cs" />
@@ -61,6 +63,9 @@
       <Project>{048c20a1-1066-4ac7-b591-4bda2739474f}</Project>
       <Name>Downloader</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Storing\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

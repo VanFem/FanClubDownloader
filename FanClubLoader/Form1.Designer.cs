@@ -70,8 +70,8 @@
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label11 = new System.Windows.Forms.Label();
             this.lblPageNum = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnPrevPage = new System.Windows.Forms.Button();
+            this.btnNextPage = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -494,7 +494,7 @@
             this.tableLayoutPanel10.ColumnCount = 3;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.tableLayoutPanel10.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.button2, 2, 0);
             this.tableLayoutPanel10.Controls.Add(this.txtDownloadLocation, 1, 0);
@@ -510,7 +510,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 8);
+            this.label8.Location = new System.Drawing.Point(3, 8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 0;
@@ -519,9 +519,9 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(265, 3);
+            this.button2.Location = new System.Drawing.Point(263, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(35, 23);
+            this.button2.Size = new System.Drawing.Size(37, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -530,9 +530,9 @@
             // txtDownloadLocation
             // 
             this.txtDownloadLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDownloadLocation.Location = new System.Drawing.Point(108, 4);
+            this.txtDownloadLocation.Location = new System.Drawing.Point(107, 4);
             this.txtDownloadLocation.Name = "txtDownloadLocation";
-            this.txtDownloadLocation.Size = new System.Drawing.Size(151, 20);
+            this.txtDownloadLocation.Size = new System.Drawing.Size(150, 20);
             this.txtDownloadLocation.TabIndex = 4;
             this.txtDownloadLocation.WordWrap = false;
             // 
@@ -545,8 +545,8 @@
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel13.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.lblPageNum, 1, 0);
-            this.tableLayoutPanel13.Controls.Add(this.button4, 2, 0);
-            this.tableLayoutPanel13.Controls.Add(this.button5, 3, 0);
+            this.tableLayoutPanel13.Controls.Add(this.btnPrevPage, 2, 0);
+            this.tableLayoutPanel13.Controls.Add(this.btnNextPage, 3, 0);
             this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel13.Location = new System.Drawing.Point(3, 301);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
@@ -575,32 +575,31 @@
             this.lblPageNum.TabIndex = 1;
             this.lblPageNum.Text = "N/A";
             // 
-            // button4
+            // btnPrevPage
             // 
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.button4.Location = new System.Drawing.Point(235, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(29, 28);
-            this.button4.TabIndex = 2;
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnPrevPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrevPage.BackgroundImage")));
+            this.btnPrevPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPrevPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnPrevPage.Location = new System.Drawing.Point(235, 3);
+            this.btnPrevPage.Name = "btnPrevPage";
+            this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
+            this.btnPrevPage.TabIndex = 2;
+            this.btnPrevPage.UseVisualStyleBackColor = true;
+            this.btnPrevPage.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
+            // btnNextPage
             // 
-            this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button5.Location = new System.Drawing.Point(270, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(30, 28);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "▶";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnNextPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNextPage.BackgroundImage")));
+            this.btnNextPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNextPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
+            this.btnNextPage.Location = new System.Drawing.Point(270, 3);
+            this.btnNextPage.Name = "btnNextPage";
+            this.btnNextPage.Size = new System.Drawing.Size(30, 28);
+            this.btnNextPage.TabIndex = 3;
+            this.btnNextPage.UseVisualStyleBackColor = true;
+            this.btnNextPage.Click += new System.EventHandler(this.button5_Click);
             // 
             // pictureBox1
             // 
@@ -698,8 +697,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblPageNum;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnPrevPage;
+        private System.Windows.Forms.Button btnNextPage;
         private System.Windows.Forms.DataGridViewTextBoxColumn threadNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImagesDisp;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pages;

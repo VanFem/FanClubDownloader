@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
@@ -9,7 +11,7 @@ namespace BeastsLairConnector
     public class BLPage
     {
         public HtmlDocument Document { get; private set; }
-        public List<string> Images { get; private set; }
+        public List<BLImage> Images { get; private set; }
         public string NextPageUrl;
         public string PageUrl { get; private set; }
 
@@ -17,7 +19,7 @@ namespace BeastsLairConnector
 
         public BLPage()
         {
-            Images = new List<string>();
+            Images = new List<BLImage>();
         }
 
         public BLPage(string url)
@@ -63,6 +65,21 @@ namespace BeastsLairConnector
             ReadNextPageUrl();
         }
 
+        public Image GetCachedImageWithIndex(int index)
+        {
+            var c = 0;
+            foreach (var img in Images.Where(img => img.Content != null))
+            {
+                if (c == index)
+                {
+                    return img.Content;
+                }
+                c++;
+            }
+
+            return null;
+        }
+
         private void ReadImages()
         {
             var images = Document.DocumentNode.SelectNodes("//div[contains(concat(' ',@class,' '),' content ')]//img[@src]");
@@ -75,11 +92,11 @@ namespace BeastsLairConnector
 
                 if (src.Contains("http://forums.nrvnqsr.com/attachment.php"))
                 {
-                    Images.Add(GetFullAttachmentUrl(src));
+                    Images.Add(new BLImage {Url = GetFullAttachmentUrl(src)});
                 }
-                else if (IsValidNonRelativeUrl(src) && !Images.Contains(src))
+                else if (IsValidNonRelativeUrl(src) && Images.All(b => b.Url != src))
                 {
-                    Images.Add(src);
+                    Images.Add(new BLImage { Url = GetFullAttachmentUrl(src) });
                 }
             }
         }
