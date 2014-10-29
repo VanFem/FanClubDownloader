@@ -20,6 +20,8 @@ namespace BeastsLairConnector
         public bool Downloaded { get; set; }
         [DataMember]
         public string LocalPath { get; set; }
+        [DataMember]
+        public int PageNumber { get; set; }
         [IgnoreDataMember]
         public Image Content { get; set; }
         [IgnoreDataMember]

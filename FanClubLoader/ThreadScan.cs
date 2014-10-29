@@ -14,7 +14,6 @@ namespace FanClubLoader
 {
     public partial class ThreadScan : Form
     {
-        private int scannedPages;
         private int currentPage;
         private const string ScannedPagesFormat = "Scanning page {0} of {1}, {2} images";
         private BackgroundWorker bwScanner;

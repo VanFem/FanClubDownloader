@@ -68,10 +68,9 @@ namespace BeastsLairConnector
 
         private void ParseDocument()
         {
-            ReadImages();
-            ReadNextPageUrl();
             ReadCurrentPageNumber();
-        }
+            ReadImages();
+            ReadNextPageUrl();}
 
         public Image GetCachedImageWithIndex(int index)
         {
@@ -100,11 +99,11 @@ namespace BeastsLairConnector
 
                 if (src.Contains("http://forums.nrvnqsr.com/attachment.php"))
                 {
-                    Images.Add(new BLImage {Url = GetFullAttachmentUrl(src)});
+                    Images.Add(new BLImage {Url = GetFullAttachmentUrl(src), PageNumber = CurrentPageNumber });
                 }
                 else if (IsValidNonRelativeUrl(src) && Images.All(b => b.Url != src))
                 {
-                    Images.Add(new BLImage { Url = GetFullAttachmentUrl(src) });
+                    Images.Add(new BLImage { Url = src, PageNumber = CurrentPageNumber});
                 }
             }
         }

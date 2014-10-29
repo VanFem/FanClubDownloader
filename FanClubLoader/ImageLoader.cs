@@ -35,11 +35,7 @@ namespace FanClubLoader
                 ThumbImage = thumbImage;
             }
         }
-
-        public delegate void ListBoxUpdateHandler(object sender, ListUpdatedArgs args);
-
-        public event ListBoxUpdateHandler ListBoxUpdated;
-
+        
         private static Image ResizeImage(Image originalImage, int canvasWidth, int canvasHeight)
         {
             Image image = originalImage;
