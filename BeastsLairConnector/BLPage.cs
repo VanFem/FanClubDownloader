@@ -4,16 +4,21 @@ using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using HtmlAgilityPack;
 
 namespace BeastsLairConnector
 {
+    [DataContract]
     public class BLPage
     {
-        public HtmlDocument Document { get; private set; }
-        public List<BLImage> Images { get; private set; }
+        private HtmlDocument Document;
+        [DataMember]
+        public List<BLImage> Images { get; set; }
+        [DataMember]
         public string NextPageUrl;
-        public string PageUrl { get; private set; }
+        [DataMember]
+        public string PageUrl { get; set; }
 
         private string _baseUrl;
 
@@ -168,7 +173,7 @@ namespace BeastsLairConnector
             var pageLink = lastPageAnchor.ParentNode.GetAttributeValue("href", null);
             if (pageLink == null) return -1;
             int pageNum;
-            if (Int32.TryParse(pageLink.Split(new[] {"/page"}, StringSplitOptions.RemoveEmptyEntries).Last(), out pageNum))
+            if (Int32.TryParse(pageLink.Split(new[] {"/page"}, StringSplitOptions.RemoveEmptyEntries).Last().Split('?')[0], out pageNum))
             {
                 return pageNum;
             }

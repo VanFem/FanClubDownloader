@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using HtmlAgilityPack;
 
 namespace BeastsLairConnector
 {
+    [DataContract]
     public class BeastsLair
     {
+        [IgnoreDataMember]
         public HtmlDocument Document;
+        
         private string _baseUrl;
 
-        public List<BLForum> Forums { get; private set; }
+        [DataMember]
+        public List<BLForum> Forums { get; set; }
 
-        public BeastsLair(string url)
+        public BeastsLair()
         {
             Forums = new List<BLForum>();
+        }
+
+        public BeastsLair(string url) : this()
+        {
             Load(url);
         }
 

@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cmbForumSelect = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ImagesDisp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbForumSelect = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.btnRefreshThreadList = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -49,7 +49,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblLastUpdated = new System.Windows.Forms.Label();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -61,7 +61,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblPagesAmt = new System.Windows.Forms.Label();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRefreshThread = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
@@ -75,10 +75,13 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
+            this.tableLayoutPanel14.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -91,6 +94,7 @@
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -111,28 +115,19 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.cmbForumSelect, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.dataGridView1, 0, 1);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.dataGridView1, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel14, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnRefreshThreadList, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.404568F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.59544F));
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.520548F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.47945F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(550, 730);
             this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // cmbForumSelect
-            // 
-            this.cmbForumSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbForumSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbForumSelect.FormattingEnabled = true;
-            this.cmbForumSelect.Location = new System.Drawing.Point(3, 3);
-            this.cmbForumSelect.Name = "cmbForumSelect";
-            this.cmbForumSelect.Size = new System.Drawing.Size(544, 21);
-            this.cmbForumSelect.TabIndex = 0;
-            this.cmbForumSelect.SelectedIndexChanged += new System.EventHandler(this.cmbForumSelect_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
@@ -147,28 +142,21 @@
             this.authorDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.bLThreadBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 35);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 62);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(544, 692);
+            this.dataGridView1.Size = new System.Drawing.Size(544, 665);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            // 
-            // threadNameDataGridViewTextBoxColumn
-            // 
-            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
-            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // ImagesDisp
             // 
             this.ImagesDisp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ImagesDisp.DataPropertyName = "ImagesDisp";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle3;
             this.ImagesDisp.HeaderText = "Images";
             this.ImagesDisp.Name = "ImagesDisp";
             this.ImagesDisp.ReadOnly = true;
@@ -178,25 +166,61 @@
             // 
             this.Pages.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.Pages.DataPropertyName = "PagesAmount";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Pages.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Pages.DefaultCellStyle = dataGridViewCellStyle4;
             this.Pages.HeaderText = "Pages";
             this.Pages.Name = "Pages";
             this.Pages.ReadOnly = true;
             this.Pages.Width = 62;
             // 
-            // authorDataGridViewTextBoxColumn
+            // tableLayoutPanel14
             // 
-            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
-            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
-            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
-            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.authorDataGridViewTextBoxColumn.Width = 63;
+            this.tableLayoutPanel14.ColumnCount = 2;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.66912F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.330883F));
+            this.tableLayoutPanel14.Controls.Add(this.cmbForumSelect, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.button4, 1, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 1;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(544, 25);
+            this.tableLayoutPanel14.TabIndex = 2;
             // 
-            // bLThreadBindingSource
+            // cmbForumSelect
             // 
-            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
+            this.cmbForumSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbForumSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbForumSelect.FormattingEnabled = true;
+            this.cmbForumSelect.Location = new System.Drawing.Point(3, 3);
+            this.cmbForumSelect.Name = "cmbForumSelect";
+            this.cmbForumSelect.Size = new System.Drawing.Size(509, 21);
+            this.cmbForumSelect.TabIndex = 0;
+            this.cmbForumSelect.SelectedIndexChanged += new System.EventHandler(this.cmbForumSelect_SelectedIndexChanged);
+            // 
+            // button4
+            // 
+            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button4.Location = new System.Drawing.Point(518, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(23, 19);
+            this.button4.TabIndex = 1;
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.refreshForumList_Click);
+            // 
+            // btnRefreshThreadList
+            // 
+            this.btnRefreshThreadList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRefreshThreadList.Location = new System.Drawing.Point(3, 34);
+            this.btnRefreshThreadList.Name = "btnRefreshThreadList";
+            this.btnRefreshThreadList.Size = new System.Drawing.Size(544, 22);
+            this.btnRefreshThreadList.TabIndex = 3;
+            this.btnRefreshThreadList.Text = "Refresh forum";
+            this.btnRefreshThreadList.UseVisualStyleBackColor = true;
+            this.btnRefreshThreadList.Click += new System.EventHandler(this.refreshThreadList_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -302,7 +326,7 @@
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.label7, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.lblLastUpdated, 1, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 138);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -321,17 +345,17 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Last updated:";
             // 
-            // label7
+            // lblLastUpdated
             // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(124, 3);
-            this.label7.Name = "label7";
-            this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(27, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "N/A";
+            this.lblLastUpdated.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblLastUpdated.AutoSize = true;
+            this.lblLastUpdated.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLastUpdated.Location = new System.Drawing.Point(124, 3);
+            this.lblLastUpdated.Name = "lblLastUpdated";
+            this.lblLastUpdated.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblLastUpdated.Size = new System.Drawing.Size(27, 13);
+            this.lblLastUpdated.TabIndex = 2;
+            this.lblLastUpdated.Text = "N/A";
             // 
             // tableLayoutPanel8
             // 
@@ -458,7 +482,7 @@
             this.tableLayoutPanel11.ColumnCount = 2;
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.11821F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.88179F));
-            this.tableLayoutPanel11.Controls.Add(this.button1, 1, 0);
+            this.tableLayoutPanel11.Controls.Add(this.btnRefreshThread, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.button3, 0, 0);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 223);
@@ -468,16 +492,16 @@
             this.tableLayoutPanel11.Size = new System.Drawing.Size(303, 44);
             this.tableLayoutPanel11.TabIndex = 6;
             // 
-            // button1
+            // btnRefreshThread
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(157, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(143, 38);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Refresh";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnRefreshThread.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRefreshThread.Location = new System.Drawing.Point(157, 3);
+            this.btnRefreshThread.Name = "btnRefreshThread";
+            this.btnRefreshThread.Size = new System.Drawing.Size(143, 38);
+            this.btnRefreshThread.TabIndex = 0;
+            this.btnRefreshThread.Text = "Refresh";
+            this.btnRefreshThread.UseVisualStyleBackColor = true;
+            this.btnRefreshThread.Click += new System.EventHandler(this.refreshThreadButton_Click);
             // 
             // button3
             // 
@@ -586,7 +610,7 @@
             this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
             this.btnPrevPage.TabIndex = 2;
             this.btnPrevPage.UseVisualStyleBackColor = true;
-            this.btnPrevPage.Click += new System.EventHandler(this.button4_Click);
+            this.btnPrevPage.Click += new System.EventHandler(this.prevPageButton_Click);
             // 
             // btnNextPage
             // 
@@ -599,7 +623,7 @@
             this.btnNextPage.Size = new System.Drawing.Size(30, 28);
             this.btnNextPage.TabIndex = 3;
             this.btnNextPage.UseVisualStyleBackColor = true;
-            this.btnNextPage.Click += new System.EventHandler(this.button5_Click);
+            this.btnNextPage.Click += new System.EventHandler(this.nextPageButton_Click);
             // 
             // pictureBox1
             // 
@@ -622,6 +646,27 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
+            // threadNameDataGridViewTextBoxColumn
+            // 
+            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
+            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // authorDataGridViewTextBoxColumn
+            // 
+            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
+            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
+            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
+            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.authorDataGridViewTextBoxColumn.Width = 63;
+            // 
+            // bLThreadBindingSource
+            // 
+            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -633,7 +678,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
+            this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -654,6 +699,7 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -678,7 +724,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblLastUpdated;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -688,7 +734,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtDownloadLocation;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRefreshThread;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Label label9;
@@ -699,10 +745,13 @@
         private System.Windows.Forms.Label lblPageNum;
         private System.Windows.Forms.Button btnPrevPage;
         private System.Windows.Forms.Button btnNextPage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
+        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridViewTextBoxColumn threadNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImagesDisp;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pages;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button btnRefreshThreadList;
 
     }
 }

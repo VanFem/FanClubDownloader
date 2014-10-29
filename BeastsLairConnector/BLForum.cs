@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 using HtmlAgilityPack;
 
 namespace BeastsLairConnector
 {
+    [DataContract]
     public class BLForum
     {
         private string _baseUrl;
 
+        [DataMember]
         public string ForumName { get; set; }
-        public string ForumUrl { get; private set; }
+        [DataMember]
+        public string ForumUrl { get; set; }
+        [DataMember]
         public List<BLThread> ForumThreads { get; private set; }
 
         public BLForum()
@@ -51,16 +53,16 @@ namespace BeastsLairConnector
         {
             var web = new HtmlWeb();
             var document = web.Load(url);
-            var forums = document.DocumentNode.SelectNodes("//h3[contains(concat(' ',@class,' '),' threadtitle ')]//a[contains(concat(' ',@class,' '),' title ')]");
-            foreach (var forum in forums)
+            var threads = document.DocumentNode.SelectNodes("//h3[contains(concat(' ',@class,' '),' threadtitle ')]//a[contains(concat(' ',@class,' '),' title ')]");
+            foreach (var thread in threads)
             {
-                var threadUrl = forum.GetAttributeValue("href", null);
+                var threadUrl = thread.GetAttributeValue("href", null);
                 var authorNode =
-                    forum.ParentNode.ParentNode.SelectSingleNode(
+                    thread.ParentNode.ParentNode.SelectSingleNode(
                         ".//div[contains(concat(' ',@class,' '),' author ')]//span[contains(concat(' ',@class,' '),' label ')]//a");
 
                 var pageAmtNode =
-                    forum.ParentNode.ParentNode.SelectSingleNode(
+                    thread.ParentNode.ParentNode.SelectSingleNode(
                         ".//div[contains(concat(' ',@class,' '),' author ')]//dl[contains(concat(' ',@class,' '),' pagination ')]//dd//span[last()]//a");
                 int pageAmt = 0;
                 if (pageAmtNode != null)
@@ -77,7 +79,7 @@ namespace BeastsLairConnector
                 
                 if (ForumThreads.All(op => op.OpeningPostUrl != threadUrl))
                 {
-                    ForumThreads.Add(new BLThread {OpeningPostUrl = threadUrl, ThreadName = WebUtility.HtmlDecode(forum.InnerHtml), Author = WebUtility.HtmlDecode(authorNode.InnerHtml), PagesAmount = pageAmt}); 
+                    ForumThreads.Add(new BLThread {OpeningPostUrl = threadUrl, ThreadName = WebUtility.HtmlDecode(thread.InnerHtml), Author = WebUtility.HtmlDecode(authorNode.InnerHtml), PagesAmount = pageAmt}); 
                 }
             }
 

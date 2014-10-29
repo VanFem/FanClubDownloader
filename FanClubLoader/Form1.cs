@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Windows.Forms;
-
+using System.Xml;
+using System.Xml.Serialization;
 using BeastsLairConnector;
 
 namespace FanClubLoader
 {
     public partial class Form1 : Form
     {
+
+        private const string DataFileName = "cache.dat";
         private BeastsLair _bl;
         private BackgroundWorker _forumLoader;
         private BackgroundWorker _asyncLauncher;
@@ -26,30 +31,57 @@ namespace FanClubLoader
         public Form1()
         {
             InitializeComponent();
-            _forumLoader = new BackgroundWorker();
-            _forumLoader.DoWork += (sender, args) => { _bl = new BeastsLair("http://forums.nrvnqsr.com"); };
-            _forumLoader.RunWorkerCompleted += (sender, args) =>
+            ReadConfigFromFile();
+            cmbForumSelect.ValueMember = "ForumUrl";
+            cmbForumSelect.DisplayMember = "ForumName";
+            if (_bl == null)
+            {
+                _forumLoader = new BackgroundWorker();
+                _forumLoader.DoWork += (sender, args) => { _bl = new BeastsLair("http://forums.nrvnqsr.com"); };
+                _forumLoader.RunWorkerCompleted += (sender, args) =>
+                {
+                    if (_bl.Forums.Count != 0)
+                    {
+                        cmbForumSelect.Items.AddRange(_bl.Forums.ToArray());
+                    }
+                };
+                _forumLoader.RunWorkerAsync();
+            }
+            else
             {
                 if (_bl.Forums.Count != 0)
                 {
                     cmbForumSelect.Items.AddRange(_bl.Forums.ToArray());
-                    cmbForumSelect.ValueMember = "ForumUrl";
-                    cmbForumSelect.DisplayMember = "ForumName";
+                    
                 }
-            };
-            _forumLoader.RunWorkerAsync();
+            }
         }
 
         private void cmbForumSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cmbForumSelect.Enabled = false;
             _selectedForum = (cmbForumSelect.SelectedItem as BLForum);
+            if (_selectedForum.ForumThreads.Count == 0)
+            {
+                InitSelectedForum();
+            }
+            else
+            {
+                bLThreadBindingSource.DataSource = _selectedForum.ForumThreads;
+                
+            }
+        }
+
+        private void InitSelectedForum()
+        {
+            btnRefreshThreadList.Enabled = false;
+            cmbForumSelect.Enabled = false;
             _forumLoader = new BackgroundWorker();
             _forumLoader.DoWork += (s, a) => _selectedForum.Load();
             _forumLoader.RunWorkerCompleted += (o, args) =>
             {
                 bLThreadBindingSource.DataSource = _selectedForum.ForumThreads;
                 cmbForumSelect.Enabled = true;
+                btnRefreshThreadList.Enabled = true;
             };
             _forumLoader.RunWorkerAsync();
         }
@@ -71,7 +103,6 @@ namespace FanClubLoader
             }
             listView1.Items.Clear();
             lblPageNum.Text = (_currentPageIndex + 1).ToString();
-
             _asyncLauncher = new BackgroundWorker();
 
             _asyncLauncher.DoWork += (o1, a1) =>
@@ -95,6 +126,7 @@ namespace FanClubLoader
                 {
                     btnNextPage.Enabled = true;
                     btnPrevPage.Enabled = true;
+                    WriteConfigToFile();
                 };
                 _imageLoader.WorkerReportsProgress = true;
                 _imageLoader.WorkerSupportsCancellation = true;
@@ -103,6 +135,14 @@ namespace FanClubLoader
                     if (_imageLoader.CancellationPending) return;
                     var args = ar.UserState as ImageLoader.ListUpdatedArgs;
                     if (args == null) return;
+                    if (listView1.LargeImageList == null)
+                    {
+                        listView1.LargeImageList = new ImageList
+                        {
+                            ImageSize = ImageLoader.ImageListSize,
+                            ColorDepth = ColorDepth.Depth32Bit
+                        };
+                    }
                     listView1.LargeImageList.Images.Add(args.ThumbImage);
                     listView1.Items.Add(new ListViewItem(string.Empty, listView1.Items.Count));
                     if (pictureBox1.Image == null)
@@ -120,14 +160,23 @@ namespace FanClubLoader
         {
             if (e.RowIndex < 0) return;
             _selectedThread = _selectedForum.ForumThreads[e.RowIndex];
-            _selectedThread.OpeningPost = new BLPage(_selectedThread.OpeningPostUrl);
-            _selectedThread.LoadedPages.Add(_selectedThread.OpeningPost);
+            if (_selectedThread.OpeningPost == null)
+            {
+                _selectedThread.OpeningPost = new BLPage(_selectedThread.OpeningPostUrl);
+                _selectedThread.LoadedPages.Add(_selectedThread.OpeningPost);
+            }
             pictureBox1.Image = null;
             _currentPageIndex = 0;
-            lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
-            lblThreadName.Text = _selectedForum.ForumThreads[e.RowIndex].ThreadName;
-            lblAuthorName.Text = _selectedThread.Author;
+            InitThreadDetails();
             UpdateListAsync();
+        }
+
+        private void InitThreadDetails()
+        {
+            lblLastUpdated.Text = _selectedThread.LastUpdated.ToString("dd MMM yyyy hh:mm:ss",new CultureInfo("en-US"));
+            lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
+            lblThreadName.Text = _selectedThread.ThreadName;
+            lblAuthorName.Text = _selectedThread.Author;
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,8 +197,9 @@ namespace FanClubLoader
             
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void nextPageButton_Click(object sender, EventArgs e)
         {
+            if (_selectedThread == null) return;
             btnNextPage.Enabled = false;
             btnPrevPage.Enabled = false;
 
@@ -167,25 +217,85 @@ namespace FanClubLoader
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void prevPageButton_Click(object sender, EventArgs e)
         {
+            if (_currentPageIndex == 0) return;
+            if (_selectedThread == null) return;
             btnNextPage.Enabled = false;
             btnPrevPage.Enabled = false;
-            if (_currentPageIndex == 0) return;
             _currentPageIndex--;
             UpdateListAsync();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void refreshThreadButton_Click(object sender, EventArgs e)
         {
+            if (_selectedThread == null) return;
             _currentPageIndex = 0;
             _selectedThread.LoadedPages.Clear();
             _selectedThread.OpeningPost = new BLPage(_selectedThread.OpeningPostUrl);
             _selectedThread.LoadedPages.Add(_selectedThread.OpeningPost);
             _selectedThread.PagesAmount = _selectedThread.OpeningPost.GetPageMax();
             _selectedThread.LastUpdated = DateTime.Now;
+            InitThreadDetails();
             UpdateListAsync();
         }
 
+        private void WriteConfigToFile()
+        {
+            var xser = new DataContractSerializer(typeof(BeastsLair));
+            var tw = new FileStream(DataFileName, FileMode.OpenOrCreate);
+            xser.WriteObject(tw, _bl);
+            tw.Close();
+        }
+
+        private void ReadConfigFromFile()
+        {
+            if (File.Exists(DataFileName))
+            {
+                try
+                {
+                    var fs = new FileStream(DataFileName, FileMode.Open);
+                    XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                    var ser = new DataContractSerializer(typeof(BeastsLair));
+                    _bl = (BeastsLair)ser.ReadObject(reader, true);
+                    reader.Close();
+                    fs.Close();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Cannot read data: " + e.Message);
+                }
+            }
+        }
+
+        private void InitBLComboBox()
+        {
+            cmbForumSelect.Enabled = false;
+            _forumLoader = new BackgroundWorker();
+            _forumLoader.DoWork += (sender, args) => { _bl = new BeastsLair("http://forums.nrvnqsr.com"); };
+            _forumLoader.RunWorkerCompleted += (sender, args) =>
+            {
+                if (_bl.Forums.Count != 0)
+                {
+                    cmbForumSelect.Items.AddRange(_bl.Forums.ToArray());
+                }
+                cmbForumSelect.Enabled = true;
+            };
+            _forumLoader.RunWorkerAsync();
+            
+        }
+
+        private void refreshForumList_Click(object s, EventArgs e)
+        {
+            bLThreadBindingSource.DataSource = null;
+            cmbForumSelect.Items.Clear();
+            InitBLComboBox();
+        }
+
+        private void refreshThreadList_Click(object sender, EventArgs e)
+        {
+            _selectedForum.ForumThreads.Clear();
+            InitSelectedForum();
+        }
     }
 }

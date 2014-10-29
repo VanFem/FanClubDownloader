@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace BeastsLairConnector
 {
-    [Serializable]
+    [DataContract]
     public class BLImage
     {
+        [DataMember]
         public string Url { get; set; }
+        [DataMember]
         public DateTime PostDate { get; set; }
+        [DataMember]
         public bool Downloaded { get; set; }
+        [DataMember]
         public string LocalPath { get; set; }
-        [XmlIgnore]
+        [IgnoreDataMember]
         public Image Content { get; set; }
-        [XmlIgnore]
+        [IgnoreDataMember]
         public Image Thumbnail { get; set; }
     }
 }
