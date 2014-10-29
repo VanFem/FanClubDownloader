@@ -31,10 +31,10 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblScanningThread = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblThreadScanProgress = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -44,10 +44,10 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblScanningThread, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblThreadScanProgress, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -81,16 +81,16 @@
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 1;
             // 
-            // label2
+            // lblScanningThread
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(277, 96);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Scanning thread:";
+            this.lblScanningThread.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblScanningThread.AutoSize = true;
+            this.lblScanningThread.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.lblScanningThread.Location = new System.Drawing.Point(277, 96);
+            this.lblScanningThread.Name = "lblScanningThread";
+            this.lblScanningThread.Size = new System.Drawing.Size(132, 17);
+            this.lblScanningThread.TabIndex = 2;
+            this.lblScanningThread.Text = "Scanning thread:";
             // 
             // tableLayoutPanel2
             // 
@@ -117,15 +117,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "99%";
             // 
-            // label4
+            // lblThreadScanProgress
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(283, 178);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Page 1 of 2, Images: 10";
+            this.lblThreadScanProgress.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblThreadScanProgress.AutoSize = true;
+            this.lblThreadScanProgress.Location = new System.Drawing.Point(283, 178);
+            this.lblThreadScanProgress.Name = "lblThreadScanProgress";
+            this.lblThreadScanProgress.Size = new System.Drawing.Size(120, 13);
+            this.lblThreadScanProgress.TabIndex = 4;
+            this.lblThreadScanProgress.Text = "Page 1 of 2, Images: 10";
             // 
             // button1
             // 
@@ -136,6 +136,7 @@
             this.button1.TabIndex = 5;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ThreadScan
             // 
@@ -156,12 +157,12 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblScanningThread;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblThreadScanProgress;
         private System.Windows.Forms.Button button1;
     }
 }

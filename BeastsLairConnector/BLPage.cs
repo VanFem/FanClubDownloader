@@ -19,6 +19,8 @@ namespace BeastsLairConnector
         public string NextPageUrl;
         [DataMember]
         public string PageUrl { get; set; }
+        [DataMember]
+        public int CurrentPageNumber { get; set; }
 
         private string _baseUrl;
 
@@ -68,6 +70,7 @@ namespace BeastsLairConnector
         {
             ReadImages();
             ReadNextPageUrl();
+            ReadCurrentPageNumber();
         }
 
         public Image GetCachedImageWithIndex(int index)
@@ -145,30 +148,43 @@ namespace BeastsLairConnector
             return NextPageUrl;
         }
 
-        public int ReadCurrentPageNumber()
-        {
-            if (Document == null) return -1;
+        private void ReadCurrentPageNumber()
+        {          
             var currPageNumberNode =
                 Document.DocumentNode.SelectSingleNode(
                     "//div[contains(concat(' ',@class,' '),'pagination_top')]//span[contains(concat(' ',@class,' '),' selected ')]//a");
-            if (currPageNumberNode == null) return -1;
+            if (currPageNumberNode == null)
+            {
+                CurrentPageNumber = -1;
+                return;
+            }
             int currPageNumber;
             if (Int32.TryParse(currPageNumberNode.InnerText, out currPageNumber))
             {
-                return currPageNumber;
+                CurrentPageNumber = currPageNumber;
             }
-            return -1;
+            else
+            {
+                CurrentPageNumber = -1;
+            }
         }
 
         public int GetPageMax()
         {
-            if (Document == null) return -1;
+            if (Document == null)
+            {
+                if (string.IsNullOrEmpty(PageUrl))
+                {
+                    return -1;
+                }
+                Load();
+            }
             var lastPageAnchor =
                 Document.DocumentNode.SelectSingleNode(
                     "//span[contains(concat(' ',@class,' '),'first_last')]//a//img[contains(@alt,'Last')]");
             if (lastPageAnchor == null)
             {
-                return ReadCurrentPageNumber();
+                return CurrentPageNumber;
             }
             var pageLink = lastPageAnchor.ParentNode.GetAttributeValue("href", null);
             if (pageLink == null) return -1;
@@ -178,7 +194,6 @@ namespace BeastsLairConnector
                 return pageNum;
             }
             return -1;
-
         }
     }
 }

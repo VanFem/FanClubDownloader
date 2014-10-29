@@ -306,6 +306,9 @@ namespace FanClubLoader
 
         private void btnScanThread_Click(object sender, EventArgs e)
         {
+            var scanForm = new ThreadScan(_selectedThread);
+            scanForm.Show();
+            scanForm.StartScan();
         }
     }
 }
