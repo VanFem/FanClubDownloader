@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using BeastsLairConnector;
+using FanClubLoader.Properties;
 
 namespace FanClubLoader
 {
@@ -36,7 +37,7 @@ namespace FanClubLoader
             }
         }
         
-        private static Image ResizeImage(Image originalImage, int canvasWidth, int canvasHeight)
+        public static Image ResizeImage(Image originalImage, int canvasWidth, int canvasHeight)
         {
             Image image = originalImage;
             int originalWidth = image.Width;
@@ -105,10 +106,12 @@ namespace FanClubLoader
                     catch(Exception ex)
                     {
                         Debug.WriteLine(img.Url+": "+ex.Message);
-                        continue;
+                        image = Resources.imageCouldNotBeLoaded;
+                        img.Content = image;
                     }
                 }
                 var thumb = img.Thumbnail ?? ResizeImage(image, ImageListSize.Width, ImageListSize.Height);
+                img.Thumbnail = thumb;
                 if (!bw.CancellationPending) bw.ReportProgress(0, new ListUpdatedArgs(image, thumb));
             }
         }

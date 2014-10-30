@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using BeastsLairConnector;
+using FanClubLoader.Properties;
 
 namespace FanClubLoader
 {
@@ -104,6 +105,14 @@ namespace FanClubLoader
                 listView1.LargeImageList.Images.Clear();
             }
             listView1.Items.Clear();
+            var resizedLoading = ImageLoader.ResizeImage(Resources.Loading, ImageLoader.ImageListSize.Width, ImageLoader.ImageListSize.Height);
+            for (int i = 0; i < _selectedThread.LoadedPages[_currentPageIndex].Images.Count; i++)
+            {
+                listView1.LargeImageList.Images.Add(resizedLoading);
+                listView1.Items.Add(new ListViewItem("", i));
+            }
+            
+            
             lblPageNum.Text = (_currentPageIndex + 1).ToString();
             _asyncLauncher = new BackgroundWorker();
 
@@ -121,6 +130,8 @@ namespace FanClubLoader
 
             _asyncLauncher.RunWorkerCompleted += (o1, a1) =>
             {
+                int currentlyLoadedImages = 0;
+                int maxImages = _selectedThread.LoadedPages[_currentPageIndex].Images.Count;
                 var loader = new ImageLoader(_selectedThread.LoadedPages[_currentPageIndex]);
                 _imageLoader = new BackgroundWorker();
                 _imageLoader.DoWork += (o, args) => loader.LoadImages(_imageLoader);
@@ -145,8 +156,18 @@ namespace FanClubLoader
                             ColorDepth = ColorDepth.Depth32Bit
                         };
                     }
-                    listView1.LargeImageList.Images.Add(args.ThumbImage);
-                    listView1.Items.Add(new ListViewItem(string.Empty, listView1.Items.Count));
+                    currentlyLoadedImages++;
+                    if (listView1.LargeImageList.Images.Count < currentlyLoadedImages)
+                    {
+                        listView1.LargeImageList.Images.Add(args.ThumbImage);
+                        listView1.Items.Add(new ListViewItem(string.Empty, listView1.Items.Count));
+                    }
+                    else
+                    {
+                        listView1.LargeImageList.Images[currentlyLoadedImages - 1] = args.ThumbImage;
+                        FillListView(maxImages);
+                    }
+                    
                     if (pictureBox1.Image == null)
                     {
                         pictureBox1.Image = args.AddedImage;
@@ -156,6 +177,15 @@ namespace FanClubLoader
             };
 
             _asyncLauncher.RunWorkerAsync();
+        }
+
+        private void FillListView(int max)
+        {
+            listView1.Items.Clear();
+            for (int i = 0; i < max; i++)
+            {
+                listView1.Items.Add(new ListViewItem("", i));
+            }
         }
         
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

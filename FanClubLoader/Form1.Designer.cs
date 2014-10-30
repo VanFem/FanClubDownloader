@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -63,6 +63,7 @@
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.btnRefreshThread = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.btnScanThread = new System.Windows.Forms.Button();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -75,7 +76,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnScanThread = new System.Windows.Forms.Button();
             this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -156,8 +156,8 @@
             // 
             this.ImagesDisp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ImagesDisp.DataPropertyName = "ImagesDisp";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ImagesDisp.DefaultCellStyle = dataGridViewCellStyle5;
             this.ImagesDisp.HeaderText = "Images";
             this.ImagesDisp.Name = "ImagesDisp";
             this.ImagesDisp.ReadOnly = true;
@@ -167,8 +167,8 @@
             // 
             this.Pages.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.Pages.DataPropertyName = "PagesAmount";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Pages.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Pages.DefaultCellStyle = dataGridViewCellStyle6;
             this.Pages.HeaderText = "Pages";
             this.Pages.Name = "Pages";
             this.Pages.ReadOnly = true;
@@ -498,9 +498,9 @@
             // btnRefreshThread
             // 
             this.btnRefreshThread.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRefreshThread.Location = new System.Drawing.Point(103, 3);
+            this.btnRefreshThread.Location = new System.Drawing.Point(104, 3);
             this.btnRefreshThread.Name = "btnRefreshThread";
-            this.btnRefreshThread.Size = new System.Drawing.Size(94, 38);
+            this.btnRefreshThread.Size = new System.Drawing.Size(95, 38);
             this.btnRefreshThread.TabIndex = 0;
             this.btnRefreshThread.Text = "Refresh";
             this.btnRefreshThread.UseVisualStyleBackColor = true;
@@ -511,10 +511,21 @@
             this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button3.Location = new System.Drawing.Point(3, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(94, 38);
+            this.button3.Size = new System.Drawing.Size(95, 38);
             this.button3.TabIndex = 7;
             this.button3.Text = "Download";
             this.button3.UseVisualStyleBackColor = true;
+            // 
+            // btnScanThread
+            // 
+            this.btnScanThread.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnScanThread.Location = new System.Drawing.Point(205, 3);
+            this.btnScanThread.Name = "btnScanThread";
+            this.btnScanThread.Size = new System.Drawing.Size(95, 38);
+            this.btnScanThread.TabIndex = 8;
+            this.btnScanThread.Text = "Scan";
+            this.btnScanThread.UseVisualStyleBackColor = true;
+            this.btnScanThread.Click += new System.EventHandler(this.btnScanThread_Click);
             // 
             // tableLayoutPanel10
             // 
@@ -569,7 +580,7 @@
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.22078F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.77922F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel13.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.lblPageNum, 1, 0);
             this.tableLayoutPanel13.Controls.Add(this.btnPrevPage, 2, 0);
@@ -587,7 +598,7 @@
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label11.Location = new System.Drawing.Point(135, 8);
+            this.label11.Location = new System.Drawing.Point(134, 8);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(45, 17);
             this.label11.TabIndex = 0;
@@ -598,7 +609,7 @@
             this.lblPageNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblPageNum.AutoSize = true;
             this.lblPageNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.lblPageNum.Location = new System.Drawing.Point(186, 8);
+            this.lblPageNum.Location = new System.Drawing.Point(185, 8);
             this.lblPageNum.Name = "lblPageNum";
             this.lblPageNum.Size = new System.Drawing.Size(34, 17);
             this.lblPageNum.TabIndex = 1;
@@ -610,7 +621,7 @@
             this.btnPrevPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPrevPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btnPrevPage.Location = new System.Drawing.Point(234, 3);
+            this.btnPrevPage.Location = new System.Drawing.Point(232, 3);
             this.btnPrevPage.Name = "btnPrevPage";
             this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
             this.btnPrevPage.TabIndex = 2;
@@ -623,9 +634,9 @@
             this.btnNextPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnNextPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.btnNextPage.Location = new System.Drawing.Point(269, 3);
+            this.btnNextPage.Location = new System.Drawing.Point(267, 3);
             this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(31, 28);
+            this.btnNextPage.Size = new System.Drawing.Size(33, 28);
             this.btnNextPage.TabIndex = 3;
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.nextPageButton_Click);
@@ -650,17 +661,6 @@
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            // 
-            // btnScanThread
-            // 
-            this.btnScanThread.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnScanThread.Location = new System.Drawing.Point(203, 3);
-            this.btnScanThread.Name = "btnScanThread";
-            this.btnScanThread.Size = new System.Drawing.Size(97, 38);
-            this.btnScanThread.TabIndex = 8;
-            this.btnScanThread.Text = "Scan";
-            this.btnScanThread.UseVisualStyleBackColor = true;
-            this.btnScanThread.Click += new System.EventHandler(this.btnScanThread_Click);
             // 
             // threadNameDataGridViewTextBoxColumn
             // 

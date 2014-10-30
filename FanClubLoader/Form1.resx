@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnPrevPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
+        t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg
+        d2l0aCBHSU1QLiBCeSBUYXJpa2FzaCBAIHdpa2lwZWRpYS5vcmcAIf8LTkVUU0NBUEUyLjADAQEAACH5
+        BAEKAB8ALAAAAAAaABwAAAiOAD8IHEiwoMGDCBMqXMiw4cEOCzQ4RAgBAAAMEwtWGGDxYkaBGA50tIhx
+        IsSRHUs2jIBypEqFFji2TLkw5EyULw0yuNky50CWPHsatEAg6EyfFAQYFXrwwVKXCTkoeOpR4QUDS30e
+        nBAgqFaEDnh+TZjg6McPFwrgPCtQQleSbAc2gBtX4AYEGerq3TsxIAA7
+</value>
+  </data>
+  <data name="btnNextPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
+        t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg
+        d2l0aCBHSU1QLiBCeSBUYXJpa2FzaCBAIHdpa2lwZWRpYS5vcmcAIf8LTkVUU0NBUEUyLjADAQEAACH5
+        BAEKAB8ALAAAAAAaABwAAAiNAD8IHEiwoMGDCBMqXMhwYAYEGxoqxAAAQAOJCClWDCABY0GNFQEUuOBR
+        IMiQABKUPIkSgAOMLFsGmNAwZksABkhOvMkTgAIOCW32BPAg49CeAigYFDqUgIWlR29GMBq1IoOdUQ9g
+        WMgUwICnDJlOlWhzQQePLLWW/AByQIW1JitCgDtQg1m6ePPqZRgQADs=
+</value>
+  </data>
   <metadata name="ImagesDisp.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -126,7 +147,12 @@
   <metadata name="bLThreadBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <metadata name="ImagesDisp.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Pages.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="btnRefreshForumList.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -189,27 +215,10 @@
         nvk8YCtxxrmy/JPY6dm3OxATD+CV/wOGYew70/ryRAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="btnPrevPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
-        t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg
-        d2l0aCBHSU1QLiBCeSBUYXJpa2FzaCBAIHdpa2lwZWRpYS5vcmcAIf8LTkVUU0NBUEUyLjADAQEAACH5
-        BAEKAB8ALAAAAAAaABwAAAiOAD8IHEiwoMGDCBMqXMiw4cEOCzQ4RAgBAAAMEwtWGGDxYkaBGA50tIhx
-        IsSRHUs2jIBypEqFFji2TLkw5EyULw0yuNky50CWPHsatEAg6EyfFAQYFXrwwVKXCTkoeOpR4QUDS30e
-        nBAgqFaEDnh+TZjg6McPFwrgPCtQQleSbAc2gBtX4AYEGerq3TsxIAA7
-</value>
-  </data>
-  <data name="btnNextPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhGgAcAIQeAAAAABwcHCYmJj09PUBAQGlpaWpqanh4eJOTk5SUlJeXl5+fn6CgoLS0tLW1tbe3
-        t729vb6+vs7OztDQ0NHR0dbW1tfX1+Xl5erq6uvr6+3t7fLy8vPz8/b29v///////yH+LkNyZWF0ZWQg
-        d2l0aCBHSU1QLiBCeSBUYXJpa2FzaCBAIHdpa2lwZWRpYS5vcmcAIf8LTkVUU0NBUEUyLjADAQEAACH5
-        BAEKAB8ALAAAAAAaABwAAAiNAD8IHEiwoMGDCBMqXMhwYAYEGxoqxAAAQAOJCClWDCABY0GNFQEUuOBR
-        IMiQABKUPIkSgAOMLFsGmNAwZksABkhOvMkTgAIOCW32BPAg49CeAigYFDqUgIWlR29GMBq1IoOdUQ9g
-        WMgUwICnDJlOlWhzQQePLLWW/AByQIW1JitCgDtQg1m6ePPqZRgQADs=
-</value>
-  </data>
   <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>198, 17</value>
+  </metadata>
+  <metadata name="bLThreadBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>
