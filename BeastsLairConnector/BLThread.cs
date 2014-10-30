@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -30,6 +31,16 @@ namespace BeastsLairConnector
         public DateTime LastUpdated { get; set; }
         [DataMember]
         public List<BLPage> LoadedPages { get; set; }
+
+        public string GetDateString
+        {
+            get
+            {
+                return LastUpdated.Year == 1
+                    ? "Never"
+                    : LastUpdated.ToString("dd MMM yyyy hh:mm:ss", new CultureInfo("en-US"));
+            }
+        }
 
         public string ImagesDisp
         {

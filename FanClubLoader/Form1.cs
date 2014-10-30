@@ -205,7 +205,7 @@ namespace FanClubLoader
 
         private void InitThreadDetails()
         {
-            lblLastUpdated.Text = _selectedThread.LastUpdated.ToString("dd MMM yyyy hh:mm:ss",new CultureInfo("en-US"));
+            lblLastUpdated.Text = _selectedThread.GetDateString;
             lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
             lblThreadName.Text = _selectedThread.ThreadName;
             lblAuthorName.Text = _selectedThread.Author;
