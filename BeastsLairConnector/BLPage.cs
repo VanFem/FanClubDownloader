@@ -107,7 +107,6 @@ namespace BeastsLairConnector
                 {
                     Images.Add(new BLImage { Url = src, PageNumber = CurrentPageNumber, PostDate = dt});
                 }
-                
             }
         }
 
