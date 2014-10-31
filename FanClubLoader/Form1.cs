@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
 using BeastsLairConnector;
 using FanClubLoader.Properties;
 

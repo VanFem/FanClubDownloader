@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Downloader
@@ -118,11 +119,7 @@ namespace Downloader
 
         private string GetFreeFileName(string url)
         {
-            var fileName = url.Split('/').Last();
-            if (fileName.Contains('?'))
-            {
-                fileName = fileName.Split('?')[0];
-            }
+            var fileName = Regex.Replace(url.Split('/').Last().Split('?')[0], @"\%[\da-f]{2}", "");
             var fileExtension = string.Empty;
 
             if (fileName.Contains('.'))
@@ -130,9 +127,15 @@ namespace Downloader
                 fileExtension = fileName.Split('.').Last();
                 fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
             }
-
-            var filePath = Path.Combine(DownloadLocation, fileName+"."+fileExtension);
+            else
+            {
+                fileExtension = "jpg";
+            }
             int i = 0;
+            string filePath;
+            filePath = string.IsNullOrEmpty(fileName)
+                ? Path.Combine(DownloadLocation, fileName + "(" + i + ")." + fileExtension)
+                : Path.Combine(DownloadLocation, fileName + "." + fileExtension);
             while (File.Exists(filePath))
             {
                 i++;

@@ -11,6 +11,8 @@ namespace BeastsLairConnector
     [DataContract]
     public class BLThread
     {
+        private string pageByUrlFormat = "{0}{1}/page{2}";
+
         [DataMember]
         public string OpeningPostUrl { get; set; }
         [DataMember]
@@ -48,6 +50,19 @@ namespace BeastsLairConnector
             {
                 return ImagesAmount > 0 ? string.Format("{0}/{1}", ImagesDownloaded, ImagesAmount) : "N/A";
             }
+        }
+
+        public BLPage GetBLPageByPageNumber(int pageNumber)
+        {
+            if (LoadedPages.Any(lp => lp.CurrentPageNumber == pageNumber))
+            {
+                return LoadedPages.First(lp => lp.CurrentPageNumber == pageNumber);
+            }
+            var pageUrl = OpeningPostUrl.Split('/');
+            var pageUrlIdentity = pageUrl.Last().Split('?')[0];
+            var bPage = new BLPage(string.Format(pageByUrlFormat, pageUrl, pageUrlIdentity, pageNumber));
+            LoadedPages.Add(bPage);
+            return bPage;
         }
 
         public BLPage RemoveQuotesAndRepeats(BLPage newPage)

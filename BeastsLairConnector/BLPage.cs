@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.Globalization;
@@ -105,9 +106,14 @@ namespace BeastsLairConnector
                 }
                 else if (IsValidNonRelativeUrl(src) && Images.All(b => b.Url != src))
                 {
-                    Images.Add(new BLImage { Url = src, PageNumber = CurrentPageNumber, PostDate = dt});
+                    Images.Add(new BLImage { Url = GetProperUrl(src), PageNumber = CurrentPageNumber, PostDate = dt});
                 }
             }
+        }
+
+        private string GetProperUrl(string url)
+        {
+            return url.EndsWith("/") ? url.Substring(0, url.Length - 1) : url;
         }
 
         private DateTime ReadImageDate(HtmlNode imageNode)
@@ -133,7 +139,21 @@ namespace BeastsLairConnector
             var pattern = @"((?<=\d)(st|nd|rd|th)|\s)";
             string dateText = Regex.Replace(WebUtility.HtmlDecode(dateNode.InnerText),
                 pattern, "");
-            dt = DateTime.ParseExact(dateText, "MMMMd,yyyy,hh:mmtt", CultureInfo.InvariantCulture); 
+            if (dateText.StartsWith("Today"))
+            {
+                dateText = dateText.Substring(5);
+                dt = DateTime.ParseExact(dateText, ",hh:mmtt", CultureInfo.InvariantCulture);
+                dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, dt.Hour, dt.Minute, 0);
+            }
+            else if (dateText.StartsWith("Yesterday"))
+            {
+                dateText = dateText.Substring(9);
+                dt = DateTime.ParseExact(dateText, ",hh:mmtt", CultureInfo.InvariantCulture);
+                var yt = DateTime.Now.AddDays(-1);
+                dt = new DateTime(yt.Year, yt.Month, yt.Day, dt.Hour, dt.Minute, 0);
+            } else {
+                dt = DateTime.ParseExact(dateText, "MMMMd,yyyy,hh:mmtt", CultureInfo.InvariantCulture);
+            }
             return dt;
         }
 

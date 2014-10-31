@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -26,5 +27,10 @@ namespace BeastsLairConnector
         public Image Content { get; set; }
         [IgnoreDataMember]
         public Image Thumbnail { get; set; }
+
+        public string FileName
+        {
+            get { return string.IsNullOrEmpty(Url) ? string.Empty : Regex.Replace(Url.Split('/').Last().Split('?')[0], @"\%[\da-f]{2}", ""); }
+        }
     }
 }
