@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
+using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using System.Threading;
+using BeastsLairConnector;
 
 namespace Downloader
 {
-    public class Downloader
+    public class BLDownloader
     {
         public class ProgressChangedEventArgs : EventArgs
         {
@@ -29,7 +33,10 @@ namespace Downloader
                 TotalFilesToDownload = filesToDownload;
                 ProgressPercentage = (100 * filesDownloaded / filesToDownload);
             }
-            public string FileBeingDownloaded { get; set; }
+
+            public bool Cancelled { get; set; }
+            public Exception Error { get; set; }
+            public BLImage ImageDownloaded { get; set; }
             public int ProgressPercentage { get; set; }
             public int FilesDownloaded { get; set; }
             public int TotalFilesToDownload { get; set; }
@@ -43,15 +50,15 @@ namespace Downloader
             public int FilesDownloaded { get ; set; }
             public bool Cancelled { get; set; }
         }
-
         
-        public List<string> FilesToDownload { get; private set; }
+        public List<BLImage> FilesToDownload { get; set; }
         public int NewThreadPause { get; set; }
         public int MaxClientThreads { get; set; }
         public string DownloadLocation { get; set; }
+        public bool IsRedownload { get; set; }
         
         
-        private int _filesDownloaded;
+        private int _filesFinishedDownloading;
         public delegate void ProgressChangedHandler(object sender, ProgressChangedEventArgs e);
         public delegate void DownloadCompletedHandler(object sender, DownloadCompletedEventArgs e);
         public event ProgressChangedHandler ProgressChanged;
@@ -60,23 +67,25 @@ namespace Downloader
 
         public class WebDownload
         {
-            public WebDownload(WebClient wc, string fileName)
+            public WebDownload(WebClient wc, string fileName, BLImage imageDownloaded)
             {
                 Client = wc;
                 FileName = fileName;
+                ImageDownloaded = imageDownloaded;
             }
 
             public WebClient Client { get; private set; }
             public string FileName { get; private set; }
+            public BLImage ImageDownloaded { get; private set; }
         }
 
         private List<WebDownload> _clients = new List<WebDownload>();
 
         
         
-        public Downloader()
+        public BLDownloader()
         {
-            FilesToDownload = new List<string>();
+            FilesToDownload = new List<BLImage>();
             MaxClientThreads = 3;
             NewThreadPause = 100;
         }
@@ -96,10 +105,20 @@ namespace Downloader
             }
         }
 
-        private void DownloadFile(string url)
+        private void DownloadFile(BLImage image)
         {
-            var dUri = new Uri(url);
-            string dPath = GetFreeFileName(url);
+            if (image.Downloaded && !IsRedownload)
+            {
+                FileDownloaded(this, new ProgressChangedEventArgs(++_filesFinishedDownloading, FilesToDownload.Count)
+                {
+                    Cancelled = false,
+                    ImageDownloaded = image,
+                    Error = null,
+                });
+                return;
+            }
+            var dUri = new Uri(image.Url);
+            string dPath = GetFreeFileName(image.Url);
 
             while (_clients.Count >= MaxClientThreads)
             {
@@ -112,9 +131,13 @@ namespace Downloader
             wc.DownloadProgressChanged += DownloadProgressChanged;
             wc.DownloadFileCompleted += DownloadFileCompleted;
             Directory.CreateDirectory(Path.GetDirectoryName(dPath));
-            File.Create(dPath).Close();
+            if (!File.Exists(dPath))
+            {
+                File.Create(dPath).Close();
+            }
+
             wc.DownloadFileAsync(dUri, dPath);
-            _clients.Add(new WebDownload(wc, dPath));
+            _clients.Add(new WebDownload(wc, dPath, image));
         }
 
         private string GetFreeFileName(string url)
@@ -149,26 +172,47 @@ namespace Downloader
             var wd = _clients.Single(w => w.Client == sender as WebClient);
             _clients.RemoveAll(w => w.Client == sender as WebClient);
 
-            if (e.Cancelled)
+            if (e.Error != null)
             {
-                DownloadCompleted(sender,
-                    new DownloadCompletedEventArgs {Cancelled = true, FilesDownloaded = _filesDownloaded});
-                
+                _filesFinishedDownloading++;
+                FileDownloaded(this, new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count) {ImageDownloaded = wd.ImageDownloaded, Error = e.Error, Cancelled = false});
                 return;
             }
-            _filesDownloaded++;
-            FileDownloaded(sender, new ProgressChangedEventArgs(_filesDownloaded, FilesToDownload.Count) { FileBeingDownloaded = wd.FileName });
-            if (_filesDownloaded == FilesToDownload.Count)
+
+            if (e.Cancelled)
             {
-                DownloadCompleted(sender,
-                new DownloadCompletedEventArgs { Cancelled = false, FilesDownloaded = FilesToDownload.Count });
+                _filesFinishedDownloading++;
+                FileDownloaded(this, new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count) {ImageDownloaded = wd.ImageDownloaded, Error = null, Cancelled = true});
+                return;
+            }
+
+            _filesFinishedDownloading++;
+            wd.ImageDownloaded.Downloaded = true;
+            wd.ImageDownloaded.LocalPath = wd.FileName;
+            wd.ImageDownloaded.Content = Image.FromFile(wd.FileName);
+
+            FileDownloaded(sender,
+                new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count)
+                {
+                    ImageDownloaded = wd.ImageDownloaded,
+                    Error = null,
+                    Cancelled = false
+                });
+            if (_filesFinishedDownloading == FilesToDownload.Count)
+            {
+                DownloadCompleted(this,
+                    new DownloadCompletedEventArgs
+                    {
+                        Cancelled = false,
+                        FilesDownloaded = FilesToDownload.Count,
+                    });
             }
         }
 
         private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            var wd = _clients.Single(w => w.Client == sender as WebClient);
-            ProgressChanged(sender, new ProgressChangedEventArgs(e, _filesDownloaded, FilesToDownload.Count){FileBeingDownloaded = wd.FileName});
+            //var wd = _clients.Single(w => w.Client == sender as WebClient);
+            //ProgressChanged(sender, new ProgressChangedEventArgs(e, _filesFinishedDownloading, FilesToDownload.Count));
         }
     }
 }

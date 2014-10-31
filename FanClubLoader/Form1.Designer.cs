@@ -35,11 +35,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ImagesDisp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.cmbForumSelect = new System.Windows.Forms.ComboBox();
             this.btnRefreshForumList = new System.Windows.Forms.Button();
@@ -79,10 +76,12 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.threadNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bLThreadBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
             this.tableLayoutPanel14.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -96,6 +95,7 @@
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -152,14 +152,6 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
-            // threadNameDataGridViewTextBoxColumn
-            // 
-            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
-            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
-            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // ImagesDisp
             // 
             this.ImagesDisp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -181,19 +173,6 @@
             this.Pages.Name = "Pages";
             this.Pages.ReadOnly = true;
             this.Pages.Width = 62;
-            // 
-            // authorDataGridViewTextBoxColumn
-            // 
-            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
-            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
-            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
-            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.authorDataGridViewTextBoxColumn.Width = 63;
-            // 
-            // bLThreadBindingSource
-            // 
-            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
             // 
             // tableLayoutPanel14
             // 
@@ -536,6 +515,7 @@
             this.button3.TabIndex = 7;
             this.button3.Text = "Download";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnScanThread
             // 
@@ -553,7 +533,7 @@
             this.tableLayoutPanel10.ColumnCount = 3;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel10.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.button2, 2, 0);
             this.tableLayoutPanel10.Controls.Add(this.txtDownloadLocation, 1, 0);
@@ -569,7 +549,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 8);
+            this.label8.Location = new System.Drawing.Point(6, 8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 0;
@@ -578,9 +558,9 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(263, 3);
+            this.button2.Location = new System.Drawing.Point(270, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(37, 23);
+            this.button2.Size = new System.Drawing.Size(30, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -589,9 +569,9 @@
             // txtDownloadLocation
             // 
             this.txtDownloadLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDownloadLocation.Location = new System.Drawing.Point(107, 4);
+            this.txtDownloadLocation.Location = new System.Drawing.Point(110, 4);
             this.txtDownloadLocation.Name = "txtDownloadLocation";
-            this.txtDownloadLocation.Size = new System.Drawing.Size(150, 20);
+            this.txtDownloadLocation.Size = new System.Drawing.Size(154, 20);
             this.txtDownloadLocation.TabIndex = 4;
             this.txtDownloadLocation.WordWrap = false;
             // 
@@ -601,7 +581,7 @@
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.22078F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.77922F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel13.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.lblPageNum, 1, 0);
             this.tableLayoutPanel13.Controls.Add(this.btnPrevPage, 2, 0);
@@ -619,7 +599,7 @@
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label11.Location = new System.Drawing.Point(131, 8);
+            this.label11.Location = new System.Drawing.Point(136, 8);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(45, 17);
             this.label11.TabIndex = 0;
@@ -630,7 +610,7 @@
             this.lblPageNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblPageNum.AutoSize = true;
             this.lblPageNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.lblPageNum.Location = new System.Drawing.Point(182, 8);
+            this.lblPageNum.Location = new System.Drawing.Point(187, 8);
             this.lblPageNum.Name = "lblPageNum";
             this.lblPageNum.Size = new System.Drawing.Size(34, 17);
             this.lblPageNum.TabIndex = 1;
@@ -642,7 +622,7 @@
             this.btnPrevPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPrevPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btnPrevPage.Location = new System.Drawing.Point(229, 3);
+            this.btnPrevPage.Location = new System.Drawing.Point(235, 3);
             this.btnPrevPage.Name = "btnPrevPage";
             this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
             this.btnPrevPage.TabIndex = 2;
@@ -655,9 +635,9 @@
             this.btnNextPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnNextPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.btnNextPage.Location = new System.Drawing.Point(264, 3);
+            this.btnNextPage.Location = new System.Drawing.Point(270, 3);
             this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(36, 28);
+            this.btnNextPage.Size = new System.Drawing.Size(30, 28);
             this.btnNextPage.TabIndex = 3;
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.nextPageButton_Click);
@@ -683,6 +663,27 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
+            // threadNameDataGridViewTextBoxColumn
+            // 
+            this.threadNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.threadNameDataGridViewTextBoxColumn.DataPropertyName = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.HeaderText = "ThreadName";
+            this.threadNameDataGridViewTextBoxColumn.Name = "threadNameDataGridViewTextBoxColumn";
+            this.threadNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // authorDataGridViewTextBoxColumn
+            // 
+            this.authorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.authorDataGridViewTextBoxColumn.DataPropertyName = "Author";
+            this.authorDataGridViewTextBoxColumn.HeaderText = "Author";
+            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
+            this.authorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.authorDataGridViewTextBoxColumn.Width = 63;
+            // 
+            // bLThreadBindingSource
+            // 
+            this.bLThreadBindingSource.DataSource = typeof(BeastsLairConnector.BLThread);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -694,7 +695,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -716,6 +716,7 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bLThreadBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

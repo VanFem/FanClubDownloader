@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,7 +12,7 @@ namespace BeastsLairConnector
     [DataContract]
     public class BLThread
     {
-        private string pageByUrlFormat = "{0}{1}/page{2}";
+        private const string pageByUrlFormat = "{0}/{1}/page{2}";
 
         [DataMember]
         public string OpeningPostUrl { get; set; }
@@ -58,11 +59,25 @@ namespace BeastsLairConnector
             {
                 return LoadedPages.First(lp => lp.CurrentPageNumber == pageNumber);
             }
-            var pageUrl = OpeningPostUrl.Split('/');
-            var pageUrlIdentity = pageUrl.Last().Split('?')[0];
+            string pageUrl = OpeningPostUrl;
+            if (OpeningPostUrl.Contains('/'))
+            {
+                pageUrl = OpeningPostUrl.Substring(0, OpeningPostUrl.LastIndexOf('/'));
+            }
+            var pageUrlIdentity = OpeningPostUrl.Split('/').Last().Split('?')[0];
             var bPage = new BLPage(string.Format(pageByUrlFormat, pageUrl, pageUrlIdentity, pageNumber));
-            LoadedPages.Add(bPage);
+            LoadedPages.Add(RemoveQuotesAndRepeats(bPage));
             return bPage;
+        }
+
+        public void ReplaceOrAddPage(BLPage page)
+        {
+            if (page.CurrentPageNumber != -1)
+            {
+                LoadedPages.RemoveAll(lp => lp.CurrentPageNumber == page.CurrentPageNumber);
+                LoadedPages.Add(RemoveQuotesAndRepeats(page));
+            }
+            Debug.WriteLine("Invalid page added");
         }
 
         public BLPage RemoveQuotesAndRepeats(BLPage newPage)

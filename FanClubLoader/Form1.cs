@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -328,7 +329,8 @@ namespace FanClubLoader
 
         private void refreshThreadList_Click(object sender, EventArgs e)
         {
-            _selectedForum.ForumThreads.Clear();
+            if (_selectedForum != null)
+                _selectedForum.ForumThreads.Clear();
             InitSelectedForum();
         }
 
@@ -337,6 +339,13 @@ namespace FanClubLoader
             var scanForm = new ThreadScan(_selectedThread);
             scanForm.Show();
             scanForm.StartScan();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var dlWindow = new DownloadForm(_selectedThread);
+            dlWindow.ShowDialog();
+            WriteConfigToFile();
         }
     }
 }

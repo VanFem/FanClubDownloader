@@ -203,7 +203,7 @@ namespace BeastsLairConnector
                     "//div[contains(concat(' ',@class,' '),'pagination_top')]//span[contains(concat(' ',@class,' '),' selected ')]//a");
             if (currPageNumberNode == null)
             {
-                CurrentPageNumber = -1;
+                CurrentPageNumber = 1;
                 return;
             }
             int currPageNumber;

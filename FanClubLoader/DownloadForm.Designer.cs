@@ -42,24 +42,27 @@
             this.lblDownloadLocation = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.dlFolderSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.bLImageBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.lblProgressLabel = new System.Windows.Forms.Label();
+            this.previewPictureBox = new System.Windows.Forms.PictureBox();
+            this.dlFolderSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.urlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.postDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.downloadedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.PageNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.localPathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pageNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contentDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.thumbnailDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.postDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFromPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numToPage)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bLImageBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -91,7 +94,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -189,10 +192,10 @@
             this.cmbPostsPerPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPostsPerPage.FormattingEnabled = true;
             this.cmbPostsPerPage.Items.AddRange(new object[] {
-            "10,",
-            "20,",
-            "30,",
-            "40,",
+            "10",
+            "20",
+            "30",
+            "40",
             "50"});
             this.cmbPostsPerPage.Location = new System.Drawing.Point(363, 4);
             this.cmbPostsPerPage.Name = "cmbPostsPerPage";
@@ -219,23 +222,26 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Download";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.Location = new System.Drawing.Point(878, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(44, 23);
+            this.button2.Size = new System.Drawing.Size(94, 23);
             this.button2.TabIndex = 10;
             this.button2.Text = "Scan";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.16681F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.83319F));
-            this.tableLayoutPanel3.Controls.Add(this.dataGridView1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.previewPictureBox, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 38);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -243,6 +249,23 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1157, 566);
             this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.dataGridView1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.progressBar1, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.lblProgressLabel, 0, 2);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(585, 560);
+            this.tableLayoutPanel4.TabIndex = 1;
             // 
             // dataGridView1
             // 
@@ -252,72 +275,84 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.urlDataGridViewTextBoxColumn,
-            this.postDateDataGridViewTextBoxColumn,
-            this.downloadedDataGridViewCheckBoxColumn,
+            this.PageNumber,
             this.localPathDataGridViewTextBoxColumn,
-            this.pageNumberDataGridViewTextBoxColumn,
-            this.contentDataGridViewImageColumn,
-            this.thumbnailDataGridViewImageColumn});
+            this.postDateDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.bLImageBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(585, 560);
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(579, 494);
             this.dataGridView1.TabIndex = 0;
             // 
             // bLImageBindingSource
             // 
             this.bLImageBindingSource.DataSource = typeof(BeastsLairConnector.BLImage);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar1.Location = new System.Drawing.Point(3, 503);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(579, 24);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 0;
+            // 
+            // lblProgressLabel
+            // 
+            this.lblProgressLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblProgressLabel.AutoSize = true;
+            this.lblProgressLabel.Location = new System.Drawing.Point(292, 538);
+            this.lblProgressLabel.Name = "lblProgressLabel";
+            this.lblProgressLabel.Size = new System.Drawing.Size(0, 13);
+            this.lblProgressLabel.TabIndex = 1;
+            // 
+            // previewPictureBox
+            // 
+            this.previewPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewPictureBox.Location = new System.Drawing.Point(594, 3);
+            this.previewPictureBox.Name = "previewPictureBox";
+            this.previewPictureBox.Size = new System.Drawing.Size(560, 560);
+            this.previewPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.previewPictureBox.TabIndex = 2;
+            this.previewPictureBox.TabStop = false;
+            // 
             // urlDataGridViewTextBoxColumn
             // 
-            this.urlDataGridViewTextBoxColumn.DataPropertyName = "Url";
-            this.urlDataGridViewTextBoxColumn.HeaderText = "Url";
+            this.urlDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.urlDataGridViewTextBoxColumn.DataPropertyName = "ShortFileName";
+            this.urlDataGridViewTextBoxColumn.HeaderText = "File name";
             this.urlDataGridViewTextBoxColumn.Name = "urlDataGridViewTextBoxColumn";
             this.urlDataGridViewTextBoxColumn.ReadOnly = true;
+            this.urlDataGridViewTextBoxColumn.Width = 77;
             // 
-            // postDateDataGridViewTextBoxColumn
+            // PageNumber
             // 
-            this.postDateDataGridViewTextBoxColumn.DataPropertyName = "PostDate";
-            this.postDateDataGridViewTextBoxColumn.HeaderText = "PostDate";
-            this.postDateDataGridViewTextBoxColumn.Name = "postDateDataGridViewTextBoxColumn";
-            this.postDateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // downloadedDataGridViewCheckBoxColumn
-            // 
-            this.downloadedDataGridViewCheckBoxColumn.DataPropertyName = "Downloaded";
-            this.downloadedDataGridViewCheckBoxColumn.HeaderText = "Downloaded";
-            this.downloadedDataGridViewCheckBoxColumn.Name = "downloadedDataGridViewCheckBoxColumn";
-            this.downloadedDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.PageNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.PageNumber.DataPropertyName = "PageNumber";
+            this.PageNumber.HeaderText = "Page";
+            this.PageNumber.Name = "PageNumber";
+            this.PageNumber.ReadOnly = true;
+            this.PageNumber.Width = 57;
             // 
             // localPathDataGridViewTextBoxColumn
             // 
+            this.localPathDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.localPathDataGridViewTextBoxColumn.DataPropertyName = "LocalPath";
-            this.localPathDataGridViewTextBoxColumn.HeaderText = "LocalPath";
+            this.localPathDataGridViewTextBoxColumn.HeaderText = "Local path";
             this.localPathDataGridViewTextBoxColumn.Name = "localPathDataGridViewTextBoxColumn";
             this.localPathDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // pageNumberDataGridViewTextBoxColumn
+            // postDateDataGridViewTextBoxColumn
             // 
-            this.pageNumberDataGridViewTextBoxColumn.DataPropertyName = "PageNumber";
-            this.pageNumberDataGridViewTextBoxColumn.HeaderText = "PageNumber";
-            this.pageNumberDataGridViewTextBoxColumn.Name = "pageNumberDataGridViewTextBoxColumn";
-            this.pageNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // contentDataGridViewImageColumn
-            // 
-            this.contentDataGridViewImageColumn.DataPropertyName = "Content";
-            this.contentDataGridViewImageColumn.HeaderText = "Content";
-            this.contentDataGridViewImageColumn.Name = "contentDataGridViewImageColumn";
-            this.contentDataGridViewImageColumn.ReadOnly = true;
-            // 
-            // thumbnailDataGridViewImageColumn
-            // 
-            this.thumbnailDataGridViewImageColumn.DataPropertyName = "Thumbnail";
-            this.thumbnailDataGridViewImageColumn.HeaderText = "Thumbnail";
-            this.thumbnailDataGridViewImageColumn.Name = "thumbnailDataGridViewImageColumn";
-            this.thumbnailDataGridViewImageColumn.ReadOnly = true;
+            this.postDateDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.postDateDataGridViewTextBoxColumn.DataPropertyName = "DateString";
+            this.postDateDataGridViewTextBoxColumn.HeaderText = "Date posted";
+            this.postDateDataGridViewTextBoxColumn.Name = "postDateDataGridViewTextBoxColumn";
+            this.postDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.postDateDataGridViewTextBoxColumn.Width = 90;
             // 
             // DownloadForm
             // 
@@ -333,8 +368,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numFromPage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numToPage)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bLImageBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -357,13 +395,14 @@
         private System.Windows.Forms.FolderBrowserDialog dlFolderSelectDialog;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn urlDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn postDateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn downloadedDataGridViewCheckBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn localPathDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pageNumberDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewImageColumn contentDataGridViewImageColumn;
-        private System.Windows.Forms.DataGridViewImageColumn thumbnailDataGridViewImageColumn;
         private System.Windows.Forms.BindingSource bLImageBindingSource;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblProgressLabel;
+        private System.Windows.Forms.PictureBox previewPictureBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn urlDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PageNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn localPathDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn postDateDataGridViewTextBoxColumn;
     }
 }

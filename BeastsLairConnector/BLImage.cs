@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -27,6 +28,16 @@ namespace BeastsLairConnector
         public Image Content { get; set; }
         [IgnoreDataMember]
         public Image Thumbnail { get; set; }
+
+        public string ShortFileName
+        {
+            get { return FileName.Length > 60 ? FileName.Substring(0, 60) + "..." : FileName; }
+        }
+        
+        public string DateString
+        {
+            get { return PostDate.Year < 2 ? "N/A" : PostDate.ToString("dd MMM yyyy a\t hh:mm tt", CultureInfo.InvariantCulture); }
+        }
 
         public string FileName
         {
