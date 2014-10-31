@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace BeastsLairConnector
@@ -96,16 +98,44 @@ namespace BeastsLairConnector
                 var src = img.GetAttributeValue("src", null);
                 if (src == null) continue;
                 src = WebUtility.HtmlDecode(src);
-
+                var dt = ReadImageDate(img);
                 if (src.Contains("http://forums.nrvnqsr.com/attachment.php"))
                 {
-                    Images.Add(new BLImage {Url = GetFullAttachmentUrl(src), PageNumber = CurrentPageNumber });
+                    Images.Add(new BLImage {Url = GetFullAttachmentUrl(src), PageNumber = CurrentPageNumber, PostDate = dt});
                 }
                 else if (IsValidNonRelativeUrl(src) && Images.All(b => b.Url != src))
                 {
-                    Images.Add(new BLImage { Url = src, PageNumber = CurrentPageNumber});
+                    Images.Add(new BLImage { Url = src, PageNumber = CurrentPageNumber, PostDate = dt});
                 }
+                
             }
+        }
+
+        private DateTime ReadImageDate(HtmlNode imageNode)
+        {
+            var dt = new DateTime();
+            HtmlNode parentNode;
+            parentNode = imageNode.ParentNode;
+            while (parentNode != null && !(parentNode.GetAttributeValue("class", "").Contains("postdetails")))
+            {
+                parentNode = parentNode.ParentNode;
+            }
+            if (parentNode == null) return dt;
+
+            HtmlNode prevChild = parentNode.PreviousSibling;
+            while (prevChild != null && !(prevChild.GetAttributeValue("class", "").Contains("posthead")))
+            {
+                prevChild = prevChild.PreviousSibling;
+            }
+            if (prevChild == null) return dt;
+
+            var dateNode = prevChild.SelectSingleNode(".//span[contains(concat(' ',@class,' '),' date ')]");
+            if (dateNode == null) return dt;
+            var pattern = @"((?<=\d)(st|nd|rd|th)|\s)";
+            string dateText = Regex.Replace(WebUtility.HtmlDecode(dateNode.InnerText),
+                pattern, "");
+            dt = DateTime.ParseExact(dateText, "MMMMd,yyyy,hh:mmtt", CultureInfo.InvariantCulture); 
+            return dt;
         }
 
         private string GetFullAttachmentUrl(string url)

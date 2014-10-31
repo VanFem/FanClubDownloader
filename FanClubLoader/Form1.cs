@@ -68,8 +68,9 @@ namespace FanClubLoader
             else
             {
                 bLThreadBindingSource.DataSource = _selectedForum.ForumThreads;
-                
             }
+
+            dataGridView1.Select(); // For insta-mouse wheel usage
         }
 
         private void InitSelectedForum()
