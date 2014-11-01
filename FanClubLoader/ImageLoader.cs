@@ -94,6 +94,10 @@ namespace FanClubLoader
                 if (img.Content != null)
                 {
                     image = img.Content;
+                } 
+                else if (!string.IsNullOrEmpty(img.LocalPath) && File.Exists(img.LocalPath))
+                {
+                    image = Image.FromFile(img.LocalPath);
                 }
                 else
                 {
@@ -103,9 +107,9 @@ namespace FanClubLoader
                         image = Image.FromStream(str);
                         img.Content = image;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Debug.WriteLine(img.Url+": "+ex.Message);
+                        Debug.WriteLine(img.Url + ": " + ex.Message);
                         image = Resources.imageCouldNotBeLoaded;
                         img.Content = image;
                     }

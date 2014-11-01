@@ -206,7 +206,7 @@ namespace FanClubLoader
             lblPagesAmt.Text = _selectedThread.PagesAmount.ToString();
             lblThreadName.Text = _selectedThread.ThreadName;
             lblAuthorName.Text = _selectedThread.Author;
-            var dt = _selectedThread.LoadedPages.Max(blp => blp.Images.Max(im => im.PostDate));
+            var dt = _selectedThread.LoadedPages.Where(blp => blp.Images.Count > 0).Max(blp => blp.Images.Max(im => im.PostDate));
             lblLastImageAdded.Text = (dt.Year < 2) ? "N/A" : dt.ToString("hh:mm tt, d MMM yyyy", CultureInfo.InvariantCulture);
         }
 

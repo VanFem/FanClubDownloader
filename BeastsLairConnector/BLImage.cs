@@ -36,7 +36,7 @@ namespace BeastsLairConnector
         
         public string DateString
         {
-            get { return PostDate.Year < 2 ? "N/A" : PostDate.ToString("dd MMM yyyy a\t hh:mm tt", CultureInfo.InvariantCulture); }
+            get { return PostDate.Year < 2 ? "N/A" : PostDate.ToString("dd MMM yyyy a\\t hh:mm tt", CultureInfo.InvariantCulture); }
         }
 
         public string FileName

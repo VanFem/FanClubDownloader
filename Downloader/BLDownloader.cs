@@ -136,8 +136,8 @@ namespace Downloader
                 File.Create(dPath).Close();
             }
 
-            wc.DownloadFileAsync(dUri, dPath);
             _clients.Add(new WebDownload(wc, dPath, image));
+            wc.DownloadFileAsync(dUri, dPath);
         }
 
         private string GetFreeFileName(string url)
@@ -148,6 +148,10 @@ namespace Downloader
             if (fileName.Contains('.'))
             {
                 fileExtension = fileName.Split('.').Last();
+                if (fileExtension.ToLower() == "php")
+                {
+                    fileExtension = "jpg";
+                }
                 fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
             }
             else
@@ -176,6 +180,7 @@ namespace Downloader
             {
                 _filesFinishedDownloading++;
                 FileDownloaded(this, new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count) {ImageDownloaded = wd.ImageDownloaded, Error = e.Error, Cancelled = false});
+                File.Delete(wd.FileName);
                 return;
             }
 
