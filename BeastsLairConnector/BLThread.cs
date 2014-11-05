@@ -34,6 +34,12 @@ namespace BeastsLairConnector
         public DateTime LastUpdated { get; set; }
         [DataMember]
         public List<BLPage> LoadedPages { get; set; }
+        
+        [DataMember]
+        public string SyncPath { get; set; }
+        [DataMember]
+        public int SyncFromPage { get; set; }
+
 
         public string GetDateString
         {

@@ -554,7 +554,7 @@
             this.tableLayoutPanel10.ColumnCount = 3;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel10.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.button2, 2, 0);
             this.tableLayoutPanel10.Controls.Add(this.txtDownloadLocation, 1, 0);
@@ -579,9 +579,9 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(269, 3);
+            this.button2.Location = new System.Drawing.Point(268, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(31, 23);
+            this.button2.Size = new System.Drawing.Size(32, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -592,7 +592,7 @@
             this.txtDownloadLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDownloadLocation.Location = new System.Drawing.Point(109, 4);
             this.txtDownloadLocation.Name = "txtDownloadLocation";
-            this.txtDownloadLocation.Size = new System.Drawing.Size(154, 20);
+            this.txtDownloadLocation.Size = new System.Drawing.Size(153, 20);
             this.txtDownloadLocation.TabIndex = 4;
             this.txtDownloadLocation.WordWrap = false;
             // 
@@ -602,7 +602,7 @@
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.22078F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.77922F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel13.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.lblPageNum, 1, 0);
             this.tableLayoutPanel13.Controls.Add(this.btnPrevPage, 2, 0);
@@ -643,7 +643,7 @@
             this.btnPrevPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPrevPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btnPrevPage.Location = new System.Drawing.Point(234, 3);
+            this.btnPrevPage.Location = new System.Drawing.Point(233, 3);
             this.btnPrevPage.Name = "btnPrevPage";
             this.btnPrevPage.Size = new System.Drawing.Size(29, 28);
             this.btnPrevPage.TabIndex = 2;
@@ -656,9 +656,9 @@
             this.btnNextPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnNextPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.btnNextPage.Location = new System.Drawing.Point(269, 3);
+            this.btnNextPage.Location = new System.Drawing.Point(268, 3);
             this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(31, 28);
+            this.btnNextPage.Size = new System.Drawing.Size(32, 28);
             this.btnNextPage.TabIndex = 3;
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.nextPageButton_Click);

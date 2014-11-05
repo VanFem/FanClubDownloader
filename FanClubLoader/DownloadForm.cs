@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BeastsLairConnector;
 using Downloader;
@@ -28,6 +22,9 @@ namespace FanClubLoader
         private int _pageMax;
         private int _postsPerPage;
         private const int DefaultPostsPerPage = 20;
+
+        public delegate void DownloadFinishedHandler();
+        public event DownloadFinishedHandler DownloadFinished;
 
         public DownloadForm(BLThread thread)
         {
@@ -100,11 +97,12 @@ namespace FanClubLoader
             button2.Text = "Cancel";
             button1.Enabled = false;
             bLImageBindingSource.DataSource = images;
-            imageScanner = new BackgroundWorker();
-            imageScanner.WorkerReportsProgress = true;
-            imageScanner.WorkerSupportsCancellation = true;
-            int toP = (int) numToPage.Value;
-            int fromP = (int) numFromPage.Value;
+            imageScanner = new BackgroundWorker {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
+            int fromP = (int)numFromPage.Value;
+            int toP = (int)numToPage.Value;
+            var converted = convertPages(fromP, toP, int.Parse(cmbPostsPerPage.Text), DefaultPostsPerPage);
+            fromP = converted.X;
+            toP = converted.Y;
             progressBar1.Maximum = toP - fromP + 1;
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
@@ -130,7 +128,8 @@ namespace FanClubLoader
         private void ScanImages(int firstPageNumber, int lastPageNumber)
         {
             int currentPageNumber = firstPageNumber;
-            var currentPage = _myThread.GetBLPageByPageNumber(currentPageNumber);
+            var currentPage = new BLPage(_myThread.GetBLPageByPageNumber(currentPageNumber).PageUrl);
+            _myThread.ReplaceOrAddPage(currentPage);
             imageScanner.ReportProgress(currentPageNumber, currentPage.Images);
             
             while (!imageScanner.CancellationPending && currentPageNumber < lastPageNumber && !string.IsNullOrEmpty(currentPage.NextPageUrl))
@@ -158,16 +157,20 @@ namespace FanClubLoader
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            int toP = (int)numToPage.Value;
             int fromP = (int)numFromPage.Value;
+            int toP = (int)numToPage.Value;
+            var converted = convertPages(fromP, toP, int.Parse(cmbPostsPerPage.Text), DefaultPostsPerPage);
+            fromP = converted.X;
+            toP = converted.Y;
             progressBar1.Maximum = toP - fromP + 1;
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
 
-            imageDownloaderWorker = new BackgroundWorker();
-            imageDownloaderWorker.WorkerReportsProgress = true;
-            imageDownloaderWorker.WorkerSupportsCancellation = true;
+            imageDownloaderWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
             imageDownloaderWorker.DoWork += (o, args) => CreateImageListToDownload(fromP, toP);
             imageDownloaderWorker.ProgressChanged += (o, args) =>
             {
@@ -187,8 +190,14 @@ namespace FanClubLoader
                 imageDownloaderWorker.DoWork += (sender1, eventArgs) => DownloadImages(false);
                 imageDownloaderWorker.ProgressChanged += (sender1, eventArgs) =>
                 {
+                    lblProgressLabel.Text = "Downloading images... " + eventArgs.ProgressPercentage + "/" + downloadList.Count;
                     progressBar1.Value = eventArgs.ProgressPercentage;
                 };
+                imageDownloaderWorker.RunWorkerCompleted += (sender1, eventArgs) =>
+                {
+                    lblProgressLabel.Text = "Download completed.";
+                    DownloadFinished();
+                }; 
                 progressBar1.Maximum = downloadList.Count;
                 progressBar1.Minimum = 0;
                 progressBar1.Value = 0;
@@ -217,16 +226,18 @@ namespace FanClubLoader
 
         private void DownloadImages(bool isRedownload)
         {
-            imageDownloader = new BLDownloader();
             bool downloaderFinished = false;
-            imageDownloader.IsRedownload = isRedownload;
-            imageDownloader.FilesToDownload = downloadList;
-            imageDownloader.DownloadLocation = txtDownloadLocation.Text;
+            imageDownloader = new BLDownloader
+            {
+                IsRedownload = isRedownload,
+                FilesToDownload = downloadList,
+                DownloadLocation = txtDownloadLocation.Text
+            };
             imageDownloader.FileDownloaded += (sender, args) =>
             {
                 var downloadedImage = args.ImageDownloaded;
                 int ind = downloadList.IndexOf(downloadedImage);
-                dataGridView1.Rows[ind].DefaultCellStyle.BackColor = args.Error == null ? Color.GreenYellow : Color.DarkRed;
+                dataGridView1.Rows[ind].DefaultCellStyle.BackColor = args.ImageDownloaded.ErrorDownloading ? Color.DarkRed : Color.GreenYellow;
                 if (args.Error == null)
                 {
                     imageDownloaderWorker.ReportProgress(args.FilesDownloaded);

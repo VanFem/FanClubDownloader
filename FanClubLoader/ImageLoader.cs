@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using BeastsLairConnector;
 using FanClubLoader.Properties;
 
@@ -43,38 +38,29 @@ namespace FanClubLoader
             int originalWidth = image.Width;
             int originalHeight = image.Height;
 
-            System.Drawing.Image thumbnail =
-                new Bitmap(canvasWidth, canvasHeight); // changed parm names
-            System.Drawing.Graphics graphic =
-                         System.Drawing.Graphics.FromImage(thumbnail);
+            Image thumbnail = new Bitmap(canvasWidth, canvasHeight);
+            var graphic = Graphics.FromImage(thumbnail);
 
             graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
             graphic.SmoothingMode = SmoothingMode.HighQuality;
             graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
             graphic.CompositingQuality = CompositingQuality.HighQuality;
 
-            /* ------------------ new code --------------- */
-
-            // Figure out the ratio
+            
             double ratioX = (double)canvasWidth / (double)originalWidth;
             double ratioY = (double)canvasHeight / (double)originalHeight;
-            // use whichever multiplier is smaller
             double ratio = ratioX < ratioY ? ratioX : ratioY;
 
-            // now we can get the new height and width
             int newHeight = Convert.ToInt32(originalHeight * ratio);
             int newWidth = Convert.ToInt32(originalWidth * ratio);
 
-            // Now calculate the X,Y position of the upper-left corner 
-            // (one of these will always be zero)
             int posX = Convert.ToInt32((canvasWidth - (originalWidth * ratio)) / 2);
             int posY = Convert.ToInt32((canvasHeight - (originalHeight * ratio)) / 2);
 
             graphic.Clear(Color.White); // white padding
             graphic.DrawImage(image, posX, posY, newWidth, newHeight);
 
-            /* ------------- end new code ---------------- */
-
+            
             return thumbnail;
         }
 
@@ -90,16 +76,21 @@ namespace FanClubLoader
             foreach (var img in _loadingPage.Images)
             {
                 if (bw.CancellationPending) return;
-                Image image;
+                Image image = null;
                 if (img.Content != null)
                 {
                     image = img.Content;
                 } 
-                else if (!string.IsNullOrEmpty(img.LocalPath) && File.Exists(img.LocalPath))
+                else if (!string.IsNullOrEmpty(img.LocalPath))
                 {
-                    image = Image.FromFile(img.LocalPath);
+                    if (!File.Exists(img.LocalPath))
+                    {
+                        img.Downloaded = false;
+                        img.LocalPath = null;
+                    } else image = Image.FromFile(img.LocalPath);
                 }
-                else
+
+                if (image == null)
                 {
                     try
                     {
@@ -114,6 +105,7 @@ namespace FanClubLoader
                         img.Content = image;
                     }
                 }
+
                 var thumb = img.Thumbnail ?? ResizeImage(image, ImageListSize.Width, ImageListSize.Height);
                 img.Thumbnail = thumb;
                 if (!bw.CancellationPending) bw.ReportProgress(0, new ListUpdatedArgs(image, thumb));

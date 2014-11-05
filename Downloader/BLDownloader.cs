@@ -117,8 +117,10 @@ namespace Downloader
                 });
                 return;
             }
+
             var dUri = new Uri(image.Url);
             string dPath = GetFreeFileName(image.Url);
+            
 
             while (_clients.Count >= MaxClientThreads)
             {
@@ -126,15 +128,30 @@ namespace Downloader
             }
 
             Thread.Sleep(NewThreadPause);
-
-            var wc = new WebClient();
-            wc.DownloadProgressChanged += DownloadProgressChanged;
-            wc.DownloadFileCompleted += DownloadFileCompleted;
+           
             Directory.CreateDirectory(Path.GetDirectoryName(dPath));
             if (!File.Exists(dPath))
             {
                 File.Create(dPath).Close();
             }
+
+            if (!IsRedownload && image.Content != null)
+            {
+                image.Content.Save(dPath);
+                image.Downloaded = true;
+                image.LocalPath = dPath;
+                FileDownloaded(this, new ProgressChangedEventArgs(++_filesFinishedDownloading, FilesToDownload.Count)
+                {
+                    Cancelled = false,
+                    ImageDownloaded = image,
+                    Error = null,
+                });
+                return;
+            }
+
+            var wc = new WebClient();
+            wc.DownloadProgressChanged += DownloadProgressChanged;
+            wc.DownloadFileCompleted += DownloadFileCompleted;
 
             _clients.Add(new WebDownload(wc, dPath, image));
             wc.DownloadFileAsync(dUri, dPath);
@@ -179,6 +196,7 @@ namespace Downloader
             if (e.Error != null)
             {
                 _filesFinishedDownloading++;
+                wd.ImageDownloaded.ErrorDownloading = true;
                 FileDownloaded(this, new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count) {ImageDownloaded = wd.ImageDownloaded, Error = e.Error, Cancelled = false});
                 File.Delete(wd.FileName);
                 return;
@@ -187,6 +205,7 @@ namespace Downloader
             if (e.Cancelled)
             {
                 _filesFinishedDownloading++;
+                wd.ImageDownloaded.ErrorDownloading = true;
                 FileDownloaded(this, new ProgressChangedEventArgs(_filesFinishedDownloading, FilesToDownload.Count) {ImageDownloaded = wd.ImageDownloaded, Error = null, Cancelled = true});
                 return;
             }

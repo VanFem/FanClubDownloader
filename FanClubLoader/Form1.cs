@@ -343,7 +343,9 @@ namespace FanClubLoader
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (_selectedThread == null) return;
             var dlWindow = new DownloadForm(_selectedThread);
+            dlWindow.DownloadFinished += WriteConfigToFile;
             dlWindow.ShowDialog();
             WriteConfigToFile();
         }

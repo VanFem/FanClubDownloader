@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace BeastsLairConnector
 {
@@ -24,6 +20,9 @@ namespace BeastsLairConnector
         public string LocalPath { get; set; }
         [DataMember]
         public int PageNumber { get; set; }
+        [DataMember]
+        public bool ErrorDownloading { get; set; }
+
         [IgnoreDataMember]
         public Image Content { get; set; }
         [IgnoreDataMember]
